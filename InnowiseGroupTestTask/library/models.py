@@ -30,6 +30,9 @@ class Book(models.Model):
     )
     user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.name} - {self.author} ({self.publication_year})'
+
 
 class User(models.Model):
     class Meta:

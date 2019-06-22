@@ -14,7 +14,7 @@
         <tbody>
         {% for book in user.book_set %}
             <tr>
-                <th>{{ book.id }}</th>
+                <th><a href="{% url 'book_edit' book.id %}">{{ book.id }}</a></th>
                 <th>{{ book.name }}</th>
                 <th>{{ book.author }}</th>
                 <th>{{ book.publication_year }}</th>

@@ -45,7 +45,9 @@ ROOT_URLCONF = 'InnowiseGroupTestTask.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR + '/library/templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

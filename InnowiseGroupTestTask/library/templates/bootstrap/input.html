@@ -1,0 +1,2 @@
+{% load bootstrap_tags %}
+<input type="{{ field|input_type }}" name="{{ field.html_name }}" value="{% if field.value %}{{ field.value|stringformat:'s' }}{% endif %}" class="form-control {% if field.errors %}is-invalid{% endif %}" {% include 'bootstrap/attrs.html' %}{% if field.field.required %}required{% endif %} id="id_{{ field.html_name }}">
