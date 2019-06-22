@@ -1,16 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 DjangoUser = get_user_model()
-
-
-@receiver(post_save, sender=DjangoUser)
-def create_and_save_user(sender, instance, created, **kwargs):
-    if created:
-        User.objects.create(user=instance)
-    instance.user.save()
 
 
 class Book(models.Model):
@@ -20,21 +11,24 @@ class Book(models.Model):
         verbose_name_plural = 'Книги'
 
     name = models.CharField(
-        name='Название',
+        name='name',
+        verbose_name='Название',
         max_length=255
     )
     author = models.CharField(
-        name='Автор',
+        name='author',
         verbose_name='Авторы',
         max_length=255
     )
     publication_year = models.IntegerField(
-        name='Год издания',
+        name='publication_year',
+        verbose_name='Год издания'
     )
     pages = models.IntegerField(
-        name='Количество страниц'
+        name='pages',
+        verbose_name='Количество страниц'
     )
-    user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True)
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True, blank=True)
 
 
 class User(models.Model):
