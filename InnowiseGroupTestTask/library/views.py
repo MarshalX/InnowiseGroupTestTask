@@ -7,17 +7,43 @@ from .forms import BookForm
 
 
 class IndexView(View):
-    def get(self, request, aggregator=None, number=None):
+    def get(self, request):
         return render(request, 'index.html', context={'users': User.objects.all()})
 
 
 class UserDetailsView(View):
-    def get(self, request, id, aggregator=None, number=None):
-        return render(request, 'user_details.html', context={'book': get_object_or_404(User, id=id)})
+    def get(self, request, id):
+        context = {
+            'books': get_object_or_404(User, id=id).book_set.all(),
+            'form': BookForm(auto_id=False)
+        }
+
+        return render(request, 'user_details.html', context=context)
+
+    def post(self, request, id):
+        user = get_object_or_404(User, id=id)
+        form = BookForm(request.POST, auto_id=False)
+
+        context = {
+            'books': get_object_or_404(User, id=id).book_set.all(),
+            'form': form
+        }
+
+        if form.is_valid():
+            book = form.save(commit=False)
+            book.user = user
+            book.save()
+
+            messages.success(request, 'Успешно добавлено!')
+            context.update({'form': BookForm(auto_id=False)})
+        else:
+            messages.error(request, 'Произошла ошибка при добавлении')
+
+        return render(request, 'user_details.html', context=context)
 
 
 class BookEditView(View):
-    def get(self, request, id, aggregator=None, number=None):
+    def get(self, request, id):
         return render(request, 'book_edit.html', context={'form': BookForm(
             instance=get_object_or_404(Book, id=id), auto_id=False)})
 

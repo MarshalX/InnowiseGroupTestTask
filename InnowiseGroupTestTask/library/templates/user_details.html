@@ -1,6 +1,7 @@
 {% extends 'main.html' %}
+{% load bootstrap_tags %}
 {% block content %}
-<h2>Книги пользователя:</h2>
+    <h2>Книги пользователя:</h2>
     <table class="table">
         <thead>
         <tr>
@@ -12,10 +13,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for book in user.book_set %}
+        {% for book in books %}
             <tr>
-                <th><a href="{% url 'book_edit' book.id %}">{{ book.id }}</a></th>
-                <th>{{ book.name }}</th>
+                <th>{{ book.id }}</th>
+                <th><a href="{% url 'book_edit' book.id %}">{{ book.name }}</a></th>
                 <th>{{ book.author }}</th>
                 <th>{{ book.publication_year }}</th>
                 <th>{{ book.pages }}</th>
@@ -23,4 +24,9 @@
         {% endfor %}
         </tbody>
     </table>
+    <h2>Добавить новую книгу пользователю:</h2>
+    <form method="POST">{% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" class="btn btn-block btn-success">Добавить</button>
+    </form>
 {% endblock %}

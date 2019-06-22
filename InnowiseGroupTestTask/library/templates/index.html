@@ -14,7 +14,7 @@
         <tr>
             <th>{{ user.id }}</th>
             <th><a href="{% url 'user_details' user.id %}">{{ user }}</a></th>
-            <th>{{ user.book_set|length }}</th>
+            <th>{{ user.book_set.count }}</th>
         </tr>
     {% endfor %}
     </tbody>

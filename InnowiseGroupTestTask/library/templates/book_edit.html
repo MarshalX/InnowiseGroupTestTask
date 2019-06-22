@@ -4,6 +4,6 @@
     <h2>Редактирование книги:</h2>
     <form method="POST">{% csrf_token %}
         {{ form|as_bootstrap }}
-        <button type="submit" class="btn btn-success">Сохранить</button>
+        <button type="submit" class="btn btn-block btn-success">Сохранить</button>
     </form>
 {% endblock %}
