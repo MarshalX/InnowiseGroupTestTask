@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
@@ -8,7 +9,27 @@ from .forms import BookForm
 
 class IndexView(View):
     def get(self, request):
-        return render(request, 'index.html', context={'users': User.objects.all()})
+        context = {
+            'users': User.objects.all(),
+            'form': UserCreationForm()
+        }
+
+        return render(request, 'index.html', context=context)
+
+    def post(self, request):
+        context = {
+            'users': User.objects.all(),
+            'form': UserCreationForm()
+        }
+
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Успешно добавлен!')
+        else:
+            messages.error(request, 'Произошла ошибка при добавлении')
+
+        return render(request, 'index.html', context=context)
 
 
 class UserDetailsView(View):

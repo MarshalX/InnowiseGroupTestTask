@@ -1,8 +1,5 @@
 from django import forms
-from django.contrib.auth import get_user_model
-
 from .models import Book
-DjangoUser = get_user_model()
 
 
 class BookForm(forms.ModelForm):
