@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>User list</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>Логин</tr>
+    <tr>Количество книг</tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr>
+            <th>{{ user }}</th>
+            <th>{{ user.book_set|length }}</th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
