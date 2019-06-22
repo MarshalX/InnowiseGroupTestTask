@@ -27,6 +27,7 @@ class IndexView(View):
             form.save()
             messages.success(request, 'Успешно добавлен!')
         else:
+            context.update({'form': form})
             messages.error(request, 'Произошла ошибка при добавлении')
 
         return render(request, 'index.html', context=context)
