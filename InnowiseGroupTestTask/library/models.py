@@ -29,7 +29,7 @@ class Book(models.Model):
         max_length=255
     )
     publication_year = models.IntegerField(
-        name='Дата издания',
+        name='Год издания',
     )
     pages = models.IntegerField(
         name='Количество страниц'

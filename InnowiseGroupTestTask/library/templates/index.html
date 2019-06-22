@@ -1,36 +1,22 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>User list</title>
-
-    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
-<body>
-
-<main class="container">
-    <table class="table">
-        <thead>
+{% extends 'main.html' %}
+{% block content %}
+<h2>Пользователи:</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Логин</th>
+        <th scope="col">Количество книг</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">Логин</th>
-            <th scope="col">Количество книг</th>
+            <th>{{ user.id }}</th>
+            <th><a href="{% url 'user_details' user.id %}">{{ user }}</a></th>
+            <th>{{ user.book_set|length }}</th>
         </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <th>{{ user.id }}</th>
-                <th>{{ user }}</th>
-                <th>{{ user.book_set|length }}</th>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</main>
-
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-</body>
-</html>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
