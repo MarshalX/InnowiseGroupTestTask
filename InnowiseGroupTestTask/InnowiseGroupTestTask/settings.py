@@ -1,5 +1,6 @@
 import os
 
+import environ
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -7,11 +8,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
+
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+environ.Env.read_env()
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8f*0=r$%##!z_y8mtfxvvwqk)fn*nqo7ks1m_&_-te$05_vum5'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = [
     '*'
@@ -27,7 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'library.apps.LibraryConfig'
+
+    'library.apps.LibraryConfig',
+
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -45,9 +56,7 @@ ROOT_URLCONF = 'InnowiseGroupTestTask.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            BASE_DIR + '/library/templates',
-        ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,14 +76,7 @@ WSGI_APPLICATION = 'InnowiseGroupTestTask.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'InnowiseGroupTestTask',
-        'USER': 'InnowiseGroup',
-        'PASSWORD': '123123123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': env.db('DATABASE_URL')
 }
 
 
@@ -115,10 +117,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-FIXTURE_DIRS = (
-    BASE_DIR + '/library/fixtures',
-)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]

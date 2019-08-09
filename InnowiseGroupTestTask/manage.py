@@ -6,6 +6,12 @@ import sys
 
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'InnowiseGroupTestTask.settings')
+
+    with open(os.environ.get('env', os.path.join('InnowiseGroupTestTask', '.env')), 'r', encoding='utf-8') as f:
+        for line in f.readlines():
+            key, *value = line.replace('\n', '').split('=')
+            os.environ[key] = '='.join(value)
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
