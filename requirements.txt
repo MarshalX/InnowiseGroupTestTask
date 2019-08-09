@@ -2,3 +2,4 @@ django
 psycopg2-binary
 django-environ
 django-crispy-forms
+Pillow

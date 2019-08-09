@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
@@ -37,8 +37,11 @@ class IndexView(View):
 
 class UserDetailsView(View):
     def get(self, request, id_):
+        user = get_object_or_404(User, id=id_)
+
         context = {
-            'books': get_object_or_404(User, id=id_).book_set.all(),
+            'user': user,
+            'books': user.book_set.all(),
             'form': BookForm(auto_id=False)
         }
 
@@ -69,6 +72,12 @@ class UserDetailsView(View):
 class UserDeleteView(DeleteView):
     model = User
     success_url = reverse_lazy('index')
+
+
+class UserEditView(UpdateView):
+    model = User
+    fields = ['avatar']
+    template_name_suffix = '_update_form'
 
 
 class BookEditView(View):

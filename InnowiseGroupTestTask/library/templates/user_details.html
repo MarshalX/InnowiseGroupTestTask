@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h2>Книги пользователя:</h2>
+    <h2>Книги пользователя {{ user.user.username }}:</h2>
+    {% if user.avatar %}
+        <img src="{{ user.avatar.url }}" alt="Аватарка пользователя {{ user.user.username }}"/>
+    {% endif %}
     <table class="table">
         <thead>
         <tr>

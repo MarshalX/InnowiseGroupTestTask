@@ -2,27 +2,32 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h2>Пользователи:</h2>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">Логин</th>
-        <th scope="col">Количество книг</th>
-        <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in users %}
+    <h2>Пользователи:</h2>
+    <table class="table">
+        <thead>
         <tr>
-            <th>{{ user.id }}</th>
-            <th><a href="{% url 'user_details' user.id %}">{{ user }}</a></th>
-            <th>{{ user.book_set.count }}</th>
-            <th><a class="btn btn-danger btn-block" href="{% url 'user_delete' user.id %}">Удалить</a></th>
+            <th scope="col">#</th>
+            <th scope="col">Логин</th>
+            <th scope="col">Количество книг</th>
+            <th scope="col"></th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th>{{ user.id }}</th>
+                <th><a href="{% url 'user_details' user.id %}">{{ user }}</a></th>
+                <th>{{ user.book_set.count }}</th>
+                <th>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-danger" href="{% url 'user_delete' user.id %}">Удалить</a>
+                        <a class="btn btn-warning" href="{% url 'user_edit' user.id %}">Редактировать</a>
+                    </div>
+                </th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
     <h2>Добавить нового пользователя:</h2>
     <form method="POST">{% csrf_token %}
         {{ form|crispy }}
