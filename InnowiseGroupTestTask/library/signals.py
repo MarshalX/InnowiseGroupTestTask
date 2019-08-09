@@ -4,10 +4,10 @@ from django.dispatch import receiver
 
 from .models import User
 
-DjangoUser = get_user_model()
+UserModel = get_user_model()
 
 
-@receiver(post_save, sender=DjangoUser)
+@receiver(post_save, sender=UserModel)
 def create_and_save_user(sender, instance, created, **kwargs):
     if created:
         User.objects.create(user=instance)

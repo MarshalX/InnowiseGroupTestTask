@@ -1,9 +1,9 @@
 {% extends 'main.html' %}
-{% load bootstrap_tags %}
+{% load crispy_forms_tags %}
 {% block content %}
     <h2>Редактирование книги:</h2>
     <form method="POST">{% csrf_token %}
-        {{ form|as_bootstrap }}
+        {{ form|crispy }}
         <button type="submit" class="btn btn-block btn-success">Сохранить</button>
     </form>
 {% endblock %}

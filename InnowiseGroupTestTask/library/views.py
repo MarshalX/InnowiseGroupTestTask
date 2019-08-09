@@ -34,20 +34,20 @@ class IndexView(View):
 
 
 class UserDetailsView(View):
-    def get(self, request, id):
+    def get(self, request, id_):
         context = {
-            'books': get_object_or_404(User, id=id).book_set.all(),
+            'books': get_object_or_404(User, id=id_).book_set.all(),
             'form': BookForm(auto_id=False)
         }
 
         return render(request, 'user_details.html', context=context)
 
-    def post(self, request, id):
-        user = get_object_or_404(User, id=id)
+    def post(self, request, id_):
+        user = get_object_or_404(User, id=id_)
         form = BookForm(request.POST, auto_id=False)
 
         context = {
-            'books': get_object_or_404(User, id=id).book_set.all(),
+            'books': get_object_or_404(User, id=id_).book_set.all(),
             'form': form
         }
 
@@ -65,12 +65,12 @@ class UserDetailsView(View):
 
 
 class BookEditView(View):
-    def get(self, request, id):
+    def get(self, request, id_):
         return render(request, 'book_edit.html', context={'form': BookForm(
-            instance=get_object_or_404(Book, id=id), auto_id=False)})
+            instance=get_object_or_404(Book, id=id_), auto_id=False)})
 
-    def post(self, request, id):
-        instance = get_object_or_404(Book, id=id)
+    def post(self, request, id_):
+        instance = get_object_or_404(Book, id=id_)
         form = BookForm(request.POST, instance=instance, auto_id=False)
 
         if form.is_valid():

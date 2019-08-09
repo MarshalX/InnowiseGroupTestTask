@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-DjangoUser = get_user_model()
+UserModel = get_user_model()
 
 
 class Book(models.Model):
@@ -40,7 +40,7 @@ class User(models.Model):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    user = models.OneToOneField(DjangoUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.user)
