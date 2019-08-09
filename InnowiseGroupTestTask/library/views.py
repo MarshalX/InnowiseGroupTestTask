@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic.edit import DeleteView
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
@@ -62,6 +64,11 @@ class UserDetailsView(View):
             messages.error(request, 'Произошла ошибка при добавлении')
 
         return render(request, 'user_details.html', context=context)
+
+
+class UserDeleteView(DeleteView):
+    model = User
+    success_url = reverse_lazy('index')
 
 
 class BookEditView(View):
