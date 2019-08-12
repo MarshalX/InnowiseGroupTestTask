@@ -5,8 +5,21 @@ from django.views.generic.edit import DeleteView, UpdateView
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
+from rest_framework import viewsets
+
 from .models import User, Book
 from .forms import BookForm
+from .serializers import BooksSerializer, UsersSerializer
+
+
+class BooksViewSet(viewsets.ModelViewSet):
+    queryset = Book.objects.all()
+    serializer_class = BooksSerializer
+
+
+class UsersViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UsersSerializer
 
 
 class IndexView(View):
