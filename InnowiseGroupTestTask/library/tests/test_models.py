@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from library.models import Book, User
 UserModel = get_user_model()
@@ -18,6 +19,10 @@ class UserModelTest(TestCase):
         user = User.objects.get(user__username='Test')
         db_table = user._meta.db_table
         self.assertEquals(db_table, 'User')
+
+    def test_user_absolute_url(self):
+        user = User.objects.get(user__username='Test')
+        self.assertEquals(user.get_absolute_url(), reverse('user_details', kwargs={'pk': user.id}))
 
 
 class BookModelTest(TestCase):
