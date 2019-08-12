@@ -33,11 +33,11 @@ class UserDetailsViewTest(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('user_details', kwargs={'id': 1}))
+        response = self.client.get(reverse('user_details', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('user_details', kwargs={'id': 1}))
+        response = self.client.get(reverse('user_details', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'user_details.html')
 
@@ -59,11 +59,11 @@ class BookEditViewViewTest(TransactionTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_url_accessible_by_name(self):
-        response = self.client.get(reverse('book_edit', kwargs={'id': 1}))
+        response = self.client.get(reverse('book_edit', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
 
     def test_view_uses_correct_template(self):
-        response = self.client.get(reverse('book_edit', kwargs={'id': 1}))
+        response = self.client.get(reverse('book_edit', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'book_edit.html')
 

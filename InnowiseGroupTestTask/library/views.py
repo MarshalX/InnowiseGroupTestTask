@@ -36,8 +36,8 @@ class IndexView(View):
 
 
 class UserDetailsView(View):
-    def get(self, request, id_):
-        user = get_object_or_404(User, id=id_)
+    def get(self, request, pk):
+        user = get_object_or_404(User, id=pk)
 
         context = {
             'user': user,
@@ -47,12 +47,12 @@ class UserDetailsView(View):
 
         return render(request, 'user_details.html', context=context)
 
-    def post(self, request, id_):
-        user = get_object_or_404(User, id=id_)
+    def post(self, request, pk):
+        user = get_object_or_404(User, id=pk)
         form = BookForm(request.POST, auto_id=False)
 
         context = {
-            'books': get_object_or_404(User, id=id_).book_set.all(),
+            'books': get_object_or_404(User, id=pk).book_set.all(),
             'form': form
         }
 
@@ -81,12 +81,12 @@ class UserEditView(UpdateView):
 
 
 class BookEditView(View):
-    def get(self, request, id_):
+    def get(self, request, pk):
         return render(request, 'book_edit.html', context={'form': BookForm(
-            instance=get_object_or_404(Book, id=id_), auto_id=False)})
+            instance=get_object_or_404(Book, id=pk), auto_id=False)})
 
-    def post(self, request, id_):
-        instance = get_object_or_404(Book, id=id_)
+    def post(self, request, pk):
+        instance = get_object_or_404(Book, id=pk)
         form = BookForm(request.POST, instance=instance, auto_id=False)
 
         if form.is_valid():
@@ -96,4 +96,3 @@ class BookEditView(View):
             messages.error(request, 'Произошла ошибка при сохранении')
 
         return render(request, 'book_edit.html', context={'form': form})
-

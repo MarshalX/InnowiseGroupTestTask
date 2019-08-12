@@ -2,13 +2,13 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from library.models import Book, User
-DjangoUser = get_user_model()
+UserModel = get_user_model()
 
 
 class UserModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user = DjangoUser.objects.create_user(
+        user = UserModel.objects.create_user(
             username='Test',
             email='test@test.te',
             password='password'
@@ -23,7 +23,7 @@ class UserModelTest(TestCase):
 class BookModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user = DjangoUser.objects.create_user(
+        user = UserModel.objects.create_user(
             username='Test',
             email='test@test.te',
             password='password'
