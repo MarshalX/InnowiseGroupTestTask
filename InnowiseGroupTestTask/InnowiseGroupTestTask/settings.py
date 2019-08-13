@@ -14,7 +14,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-environ.Env.read_env()
+environ.Env.read_env('/code/.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
