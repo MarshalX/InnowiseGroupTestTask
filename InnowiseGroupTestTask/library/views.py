@@ -6,7 +6,6 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 
 from rest_framework import viewsets
-
 from .models import User, Book
 from .forms import BookForm
 from .serializers import BooksSerializer, UsersSerializer
