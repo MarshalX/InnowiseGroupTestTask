@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'library.apps.LibraryConfig',
+    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [

@@ -5,6 +5,7 @@ from django.views.static import serve
 from django.urls import path, include
 
 urlpatterns = [
+    path('', include('frontend.urls')),
     path('', include('library.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
