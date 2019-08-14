@@ -16,7 +16,7 @@ class UserModelSerializer(serializers.ModelSerializer):
 class BooksSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ('name', 'author', 'publication_year', 'pages')
+        fields = ('id', 'name', 'author', 'publication_year', 'pages')
 
 
 class UsersSerializer(serializers.ModelSerializer):

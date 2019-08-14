@@ -7,13 +7,33 @@ class DataProvider extends Component {
         render: PropTypes.func.isRequired
     };
 
-    state = {
-        data: [],
-        loaded: false,
-        placeholder: "Loading..."
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: [],
+            loaded: false,
+            placeholder: "Loading...",
+            updated: props.updated
+        };
+    }
+
+    componentDidMount = () => {
+        this.tick();
+
+        if (this.state.updated) {
+            this.timerID = setInterval(
+                () => this.tick(),
+                3000
+            );
+        }
     };
 
-    componentDidMount() {
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
         fetch(this.props.endpoint)
             .then(response => {
                 if (response.status !== 200) {
@@ -29,4 +49,5 @@ class DataProvider extends Component {
         return loaded ? this.props.render(data) : <p>{placeholder}</p>;
     }
 }
+
 export default DataProvider;
