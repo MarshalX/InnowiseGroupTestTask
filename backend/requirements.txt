@@ -4,3 +4,4 @@ django-environ
 django-crispy-forms
 Pillow
 djangorestframework
+django-cors-headers

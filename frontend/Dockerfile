@@ -5,10 +5,9 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY package.json /app
-COPY yarn.lock /app
 RUN yarn install --frozen-lockfile
 
-COPY static /app/static
+COPY public /app/public
 COPY src /app/src
 
 RUN npm run build

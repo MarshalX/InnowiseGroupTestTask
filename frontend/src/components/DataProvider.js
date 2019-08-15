@@ -12,10 +12,10 @@ class DataProvider extends Component {
 
         this.state = {
             data: [],
-            loaded: false,
             placeholder: "Loading...",
             updated: props.updated
         };
+        this.loaded = false;
     }
 
     componentDidMount = () => {
@@ -29,11 +29,13 @@ class DataProvider extends Component {
         }
     };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         clearInterval(this.timerID);
-    }
+    };
 
-    tick() {
+    tick = () => {
+        this.loaded = false;
+
         fetch(this.props.endpoint)
             .then(response => {
                 if (response.status !== 200) {
@@ -41,12 +43,15 @@ class DataProvider extends Component {
                 }
                 return response.json();
             })
-            .then(data => this.setState({ data: data, loaded: true }));
-    }
+            .then(data => {
+                this.loaded = true;
+                this.setState({ data: data });
+            });
+    };
 
     render() {
-        const { data, loaded, placeholder } = this.state;
-        return loaded ? this.props.render(data) : <p>{placeholder}</p>;
+        const { data, placeholder } = this.state;
+        return this.loaded ? this.props.render(data) : <p>{placeholder}</p>;
     }
 }
 

@@ -4,8 +4,9 @@
   "description": "Тестовое задание №1 (для вакансии стажер-разработчик Python).",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development src/index.js --output ./InnowiseGroupTestTask/frontend/static/frontend/main.js",
-    "build": "webpack --mode production src/index.js --output ./InnowiseGroupTestTask/frontend/static/frontend/main.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
   "repository": {
     "type": "git",
@@ -17,19 +18,24 @@
   "bugs": {
     "url": "https://github.com/MarshalX/InnowiseGroupTestTask/issues"
   },
-  "homepage": "https://github.com/MarshalX/InnowiseGroupTestTask#readme",
+  "homepage": "/",
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-transform-class-properties": "^6.24.1",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
-    "weak-key": "^1.0.1",
-    "webpack": "^4.39.1",
-    "webpack-cli": "^3.3.6"
+    "react-scripts": "^3.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
