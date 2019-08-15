@@ -14,7 +14,7 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-environ.Env.read_env('/code/.env')
+environ.Env.read_env('/app/.env')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'library.apps.LibraryConfig',
-    'frontend.apps.FrontendConfig',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'InnowiseGroupTestTask.urls'
+ROOT_URLCONF = 'test_task.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +73,7 @@ TEMPLATES = [
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-WSGI_APPLICATION = 'InnowiseGroupTestTask.wsgi.application'
+WSGI_APPLICATION = 'test_task.wsgi.application'
 
 
 # Database
