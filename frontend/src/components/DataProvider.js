@@ -12,8 +12,7 @@ class DataProvider extends Component {
 
         this.state = {
             data: [],
-            placeholder: "Loading...",
-            updated: props.updated
+            placeholder: "Loading..."
         };
         this.loaded = false;
     }
@@ -21,7 +20,7 @@ class DataProvider extends Component {
     componentDidMount = () => {
         this.tick();
 
-        if (this.state.updated) {
+        if (this.props.updated) {
             this.timerID = setInterval(
                 () => this.tick(),
                 3000

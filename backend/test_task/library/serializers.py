@@ -19,9 +19,30 @@ class BooksSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'author', 'publication_year', 'pages')
 
 
+class ShortUsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'avatar', 'username', 'books_count')
+
+    username = serializers.CharField(
+        source='user.username',
+        read_only=True
+    )
+
+    books_count = serializers.IntegerField(
+        source='book_set.count',
+        read_only=True
+    )
+
+
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('avatar', 'user')
+        fields = ('id', 'avatar', 'user', 'books')
 
     user = UserModelSerializer()
+
+    books = BooksSerializer(
+        source='book_set',
+        many=True
+    )

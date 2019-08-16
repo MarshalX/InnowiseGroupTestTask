@@ -2,11 +2,13 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from .views import IndexView, UserDetailsView, BookEditView, UserDeleteView, UserEditView, BooksViewSet, UsersViewSet
+from .views import IndexView, UserDetailsView, BookEditView, UserDeleteView, UserEditView,\
+    BooksViewSet, UsersViewSet, ShortUsersViewSet
 
 
 router = routers.DefaultRouter()
 router.register(r'books', BooksViewSet)
+router.register(r'short_user', ShortUsersViewSet)
 router.register(r'user', UsersViewSet)
 
 urlpatterns = [

@@ -1,14 +1,26 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import React, { Suspense, lazy } from 'react';
 
-const Home = lazy(() => import('../routes/Home'));
+const Content = lazy(() => import('../components/Content'));
+const MainNavbar = lazy(() => import('../components/MainNavbar'));
 
-const App = () => <Router>
-        <Suspense fallback={<div>Загрузка...</div>}>
+const Books = lazy(() => import('../routes/Books'));
+const Users = lazy(() => import('../routes/Users'));
+const UserPage = lazy(() => import('../routes/UserPage'));
+
+const App = () =>
+    <Router>
+    <Suspense fallback={<div>Загрузка...</div>}>
+        <MainNavbar />
+        <Content>
             <Switch>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/books" component={Books}/>
+                <Route exact path="/" component={Users}/>
+                <Route exact path="/user/:id" component={UserPage}/>
             </Switch>
-        </Suspense>
-    </Router>;
+        </Content>
+    </Suspense>
+    </Router>
+;
 
 export default App

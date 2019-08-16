@@ -8,7 +8,7 @@ from django.views import View
 from rest_framework import viewsets
 from .models import User, Book
 from .forms import BookForm
-from .serializers import BooksSerializer, UsersSerializer
+from .serializers import BooksSerializer, UsersSerializer, ShortUsersSerializer
 
 
 class BooksViewSet(viewsets.ModelViewSet):
@@ -19,6 +19,11 @@ class BooksViewSet(viewsets.ModelViewSet):
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UsersSerializer
+
+
+class ShortUsersViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = ShortUsersSerializer
 
 
 class IndexView(View):
