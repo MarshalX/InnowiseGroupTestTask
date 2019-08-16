@@ -4,21 +4,36 @@ import {LinkContainer} from 'react-router-bootstrap'
 import Table from 'react-bootstrap/Table'
 import {Button, ButtonToolbar} from "react-bootstrap";
 
-const withoutId = (elr, idx) => {
-    if (idx !== 0) {
-        return <td key={idx}>{elr[1]}</td>
-    }
-};
 
 class UsersTable extends React.Component {
     propTypes = {
-        data: PropTypes.array.isRequired
+        data: PropTypes.array.isRequired,
+        onDelete: PropTypes.func.isRequired
     };
+    static header = ["Аватарка", "Логин", "Количество книг", ""];
 
-    constructor(props) {
-        super(props);
+    make_header = (items) => <tr>
+        {items.map((elr, idx) => <th key={idx}>{elr}</th>)}
+    </tr>;
 
-    }
+    make_element = (el) => <LinkContainer to={"/user/" + el.id}>
+        <tr key={el.id}>
+            {Object.entries(el).slice(1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+            <td>
+                <ButtonToolbar className="btn-group">
+                    <LinkContainer to={"/user/" + el.id + "/edit"}>
+                        <Button variant="warning">
+                            Редактировать
+                        </Button>
+                    </LinkContainer>
+                    <Button variant="danger" onClick={(e)=>this.props.onDelete(el.id, e)}>
+                        Удалить
+                    </Button>
+                </ButtonToolbar>
+            </td>
+        </tr>
+    </LinkContainer>;
+
 
     render() {
         return !this.props.data.length ? (
@@ -26,30 +41,10 @@ class UsersTable extends React.Component {
         ) : (
             <Table hover={true}>
                 <thead className="thead-dark">
-                <tr>
-                    {["Аватарка", "Логин", "Количество книг", ""].map((elr, idx) => <th key={idx}>{elr}</th>)}
-                </tr>
+                {this.make_header(UsersTable.header)}
                 </thead>
                 <tbody>
-                {this.props.data.map(el => (
-                    <LinkContainer to={"/user/" + el.id}>
-                        <tr key={el.id}>
-                            {Object.entries(el).map((elr, idx) => withoutId(elr, idx))}
-                            <td key={"action" + el.id}>
-                                <ButtonToolbar className="btn-group">
-                                    <LinkContainer to={"/user/" + el.id + "/edit"}>
-                                        <Button variant="warning">
-                                            Редактировать
-                                        </Button>
-                                    </LinkContainer>
-                                    <Button variant="danger" onClick={this.props.onDelete.bind(this, el.id)}>
-                                        Удалить
-                                    </Button>
-                                </ButtonToolbar>
-                            </td>
-                        </tr>
-                    </LinkContainer>
-                ))}
+                {this.props.data.map(el => this.make_element(el))}
                 </tbody>
             </Table>
         )

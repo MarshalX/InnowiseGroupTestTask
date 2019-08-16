@@ -4,11 +4,6 @@ import DataProvider from "../components/DataProvider";
 const UsersTable = lazy(() => import('../components/UsersTable'));
 
 class Users extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
-
     onClickDelete = (id, event) => {
         fetch(
             "http://127.0.0.1:8000/api/short_user/" + id,
