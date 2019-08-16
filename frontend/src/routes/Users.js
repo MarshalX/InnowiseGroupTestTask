@@ -10,7 +10,17 @@ class Users extends React.Component {
     }
 
     onClickDelete = (id, event) => {
-        alert('Want to delete: ' + id);
+        fetch(
+            "http://127.0.0.1:8000/api/short_user/" + id,
+            {method: 'DELETE'}
+        ).then(response => {
+            if (response.status !== 204) {
+                alert('Произошла ошибка при удалении! Возможно, пользователь не вернул все книги в библиотеку!')
+            } else {
+                alert('Успешно удалено!')
+            }
+        });
+
         event.preventDefault();
     };
 

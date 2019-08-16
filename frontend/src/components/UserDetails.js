@@ -13,13 +13,15 @@ class UsersDetails extends React.Component {
     }
 
     render() {
-        if (this.props.data === undefined) {
+        const data = this.props.data;
+
+        if (data === undefined) {
             return <p>Пользователь не найден</p>
         }
 
         return <span>
-            <h1>Книги пользователя {this.props.data.user.username}</h1>
-            <BooksTable data={this.props.data.books} />
+            <h1>Книги пользователя {data.user.username}</h1>
+            <BooksTable data={data.books} />
         </span>
     }
 }

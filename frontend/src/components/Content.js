@@ -7,7 +7,7 @@ class Content extends React.Component {
     }
 
     render () {
-        return <Container mb={3}>
+        return <Container className="mb-3">
             {this.props.children}
         </Container>
     }
