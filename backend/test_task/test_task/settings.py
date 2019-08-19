@@ -74,6 +74,12 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata',
+}
+
+DRF_AUTO_METADATA_ADAPTER = 'drf_auto_endpoint.adapters.ReactJsonSchemaAdapter'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 WSGI_APPLICATION = 'test_task.wsgi.application'

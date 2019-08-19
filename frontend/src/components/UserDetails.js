@@ -7,11 +7,6 @@ class UsersDetails extends React.Component {
         data: PropTypes.array.isRequired
     };
 
-    constructor(props) {
-        super(props);
-
-    }
-
     render() {
         const data = this.props.data;
 
@@ -26,4 +21,4 @@ class UsersDetails extends React.Component {
     }
 }
 
-export default UsersDetails;
+export default UsersDetails

@@ -26,7 +26,7 @@ class UsersTable extends React.Component {
                             Редактировать
                         </Button>
                     </LinkContainer>
-                    <Button variant="danger" onClick={(e)=>this.props.onDelete(el.id, e)}>
+                    <Button variant="danger" onClick={(e) => this.props.onDelete(el.id, e)}>
                         Удалить
                     </Button>
                 </ButtonToolbar>
@@ -34,21 +34,22 @@ class UsersTable extends React.Component {
         </tr>
     </LinkContainer>;
 
-
     render() {
-        return !this.props.data.length ? (
-            <p>Nothing to show</p>
+        const data = this.props.data;
+
+        return !data.length ? (
+            <p>Нечего показывать</p>
         ) : (
             <Table hover={true}>
                 <thead className="thead-dark">
                 {this.make_header(UsersTable.header)}
                 </thead>
                 <tbody>
-                {this.props.data.map(el => this.make_element(el))}
+                {data.map(el => this.make_element(el))}
                 </tbody>
             </Table>
         )
     }
 }
 
-export default UsersTable;
+export default UsersTable

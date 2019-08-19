@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+
 class DataProvider extends Component {
     static propTypes = {
         endpoint: PropTypes.string.isRequired,
@@ -15,6 +16,7 @@ class DataProvider extends Component {
             placeholder: "Loading..."
         };
         this.loaded = false;
+        this.method = props.method || 'get'
     }
 
     componentDidMount = () => {
@@ -35,7 +37,7 @@ class DataProvider extends Component {
     tick = () => {
         this.loaded = false;
 
-        fetch(this.props.endpoint)
+        fetch(this.props.endpoint, {'method': this.method})
             .then(response => {
                 if (response.status !== 200) {
                     return this.setState({ placeholder: "Something went wrong" });
@@ -54,4 +56,4 @@ class DataProvider extends Component {
     }
 }
 
-export default DataProvider;
+export default DataProvider

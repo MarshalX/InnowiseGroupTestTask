@@ -5,3 +5,4 @@ django-crispy-forms
 Pillow
 djangorestframework
 django-cors-headers
+drf-schema-adapter

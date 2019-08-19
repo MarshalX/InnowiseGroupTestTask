@@ -1,7 +1,9 @@
 import React, {lazy} from "react";
 import DataProvider from "../components/DataProvider";
 
+
 const UsersTable = lazy(() => import('../components/UsersTable'));
+
 
 class Users extends React.Component {
     onClickDelete = (id, event) => {

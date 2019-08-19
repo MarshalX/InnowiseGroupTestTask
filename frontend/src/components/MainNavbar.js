@@ -2,6 +2,7 @@ import React from "react";
 import {Navbar, Nav} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
 
+
 const MainNavbar = () =>
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="mb-3">
         <Navbar.Brand href="#">Test task</Navbar.Brand>
@@ -18,6 +19,5 @@ const MainNavbar = () =>
         </Navbar.Collapse>
     </Navbar>
 ;
-
 
 export default MainNavbar
