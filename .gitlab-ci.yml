@@ -21,4 +21,6 @@ test:
     - pip3 install -r backend/requirements.txt
     - pip3 install coverage
     - python3 backend/test_task/manage.py migrate
+    - python3 backend/test_task/manage.py makemigrations library
+    - python3 backend/test_task/manage.py migrate
     - coverage run --source='backend' backend/test_task/manage.py test library
