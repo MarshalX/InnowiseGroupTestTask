@@ -4,9 +4,8 @@ stages:
   - test
 
 before_script:
-  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> backend/.env
-  - echo "SECRET_KEY=$SECRET_KEY" >> backend/.env
-  - cat backend/.env
+  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> backend/test_task/test_task/.env
+  - echo "SECRET_KEY=$SECRET_KEY" >> backend/test_task/test_task/.env
 
 test:
   stage: test
