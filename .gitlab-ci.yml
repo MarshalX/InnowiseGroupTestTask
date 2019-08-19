@@ -11,6 +11,10 @@ test:
   stage: test
   services:
     - postgres:alpine
+  variables:
+    POSTGRES_DB: $POSTGRES_DB
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   script:
     - apk update
     - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
