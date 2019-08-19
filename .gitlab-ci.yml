@@ -1,0 +1,19 @@
+image: alpine
+
+stages:
+  - test
+
+before_script:
+  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> backend/.env
+  - echo "SECRET_KEY=$SECRET_KEY" >> backend/.env
+
+test:
+  stage: test
+  services:
+    - postgres:alpine
+  script:
+    - apk update
+    - apk add postgresql-dev gcc python3-dev py3-pip
+    - pip3 install -r backend/requirements.txt
+    - python backend/test_task/manage.py migrate
+    - python backend/test_task/manage.py test
