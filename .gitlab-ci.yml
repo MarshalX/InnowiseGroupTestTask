@@ -15,5 +15,5 @@ test:
     - apk update
     - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
     - pip3 install -r backend/requirements.txt
-    - python backend/test_task/manage.py migrate
-    - python backend/test_task/manage.py test
+    - python3 backend/test_task/manage.py migrate
+    - python3 backend/test_task/manage.py test
