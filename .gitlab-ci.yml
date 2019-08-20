@@ -4,11 +4,6 @@ stages:
   - test
   - build
 
-before_script:
-  - cd backend
-  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> test_task/test_task/.env
-  - echo "SECRET_KEY=$SECRET_KEY" >> test_task/test_task/.env
-
 test:
   stage: test
   services:
@@ -18,6 +13,9 @@ test:
     POSTGRES_USER: $POSTGRES_USER
     POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   script:
+    - cd backend
+    - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> test_task/test_task/.env
+    - echo "SECRET_KEY=$SECRET_KEY" >> test_task/test_task/.env
     - apk update
     - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
     - pip3 install pipenv
@@ -30,7 +28,7 @@ build_backend:
   image: docker:18
   stage: build
   script:
-    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - cd backend
     - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
 
@@ -38,7 +36,6 @@ build_frontend:
   image: docker:18
   stage: build
   script:
-    - cd ../frontend
-    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - cd frontend
     - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA
