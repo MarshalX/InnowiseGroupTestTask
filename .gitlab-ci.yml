@@ -31,6 +31,7 @@ build_backend:
   stage: build
   script:
     - cd backend
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
 
@@ -41,5 +42,6 @@ build_frontend:
   stage: build
   script:
     - cd frontend
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
     - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA
