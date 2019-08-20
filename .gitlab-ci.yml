@@ -58,5 +58,11 @@ deploy:
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
-    - scp -r ./docker-compose.autodeploy.yml $DEPLOYMENT_SERVER_USER@${DEPLOYMENT_SERVER_IP}:~/
+    - echo "SECRET_KEY=$SECRET_KEY" >> .env
+    - echo "POSTGRES_USER=$POSTGRES_USER" >> .env
+    - echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+    - echo "POSTGRES_DB=$POSTGRES_DB" >> .env
+    - echo "POSTGRES_PORT=$POSTGRES_PORT" >> .env
+    - echo "POSTGRES_HOST=$POSTGRES_HOST" >> .env
+    - scp -r ./.env ./docker-compose.autodeploy.yml $DEPLOYMENT_SERVER_USER@${DEPLOYMENT_SERVER_IP}:~/
     - ssh $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm backend --force; docker-compose -f docker-compose.autodeploy.yml rm frontend --force; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml up -d"

@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     env_file:
-      - backend/.env
+      - .env
   frontend:
     image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:latest
     ports:
@@ -17,6 +17,6 @@ services:
   db:
     image: postgres
     env_file:
-      - backend/.env
+      - .env
     volumes:
       - '/var/lib/postgresql/data'
