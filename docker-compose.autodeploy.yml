@@ -1,7 +1,7 @@
 version: '3'
 services:
   backend:
-    image: registry.gitlab.com/marshalx/innowisegrouptesttask/backend:latest
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/backend:${CI_COMMIT_SHA}
     ports:
       - "8000:8000"
     depends_on:
@@ -9,11 +9,13 @@ services:
     env_file:
       - .env
   frontend:
-    image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:latest
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:${CI_COMMIT_SHA}
     ports:
       - "80:80"
     depends_on:
       - backend
+    env_file:
+      - .env
   db:
     image: postgres
     env_file:
