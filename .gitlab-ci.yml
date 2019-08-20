@@ -1,0 +1,25 @@
+image: alpine
+
+stages:
+  - test
+
+before_script:
+  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> backend/test_task/test_task/.env
+  - echo "SECRET_KEY=$SECRET_KEY" >> backend/test_task/test_task/.env
+
+test:
+  stage: test
+  services:
+    - postgres:alpine
+  variables:
+    POSTGRES_DB: $POSTGRES_DB
+    POSTGRES_USER: $POSTGRES_USER
+    POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+  script:
+    - apk update
+    - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
+    - pip3 install -r backend/requirements.txt
+    - pip3 install coverage
+    - python3 backend/test_task/manage.py migrate
+    - coverage run --source='backend' backend/test_task/manage.py test library
+    - coverage report
