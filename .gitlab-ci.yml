@@ -2,11 +2,13 @@ image: alpine
 
 stages:
   - test
+  - build
 
 before_script:
   - cd backend
   - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> test_task/test_task/.env
   - echo "SECRET_KEY=$SECRET_KEY" >> test_task/test_task/.env
+  - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
 
 test:
   stage: test
@@ -20,8 +22,20 @@ test:
     - apk update
     - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
     - pip3 install pipenv
-    - pipenv install --deploy --system
-    - pip3 install coverage
+    - pipenv install --dev --deploy --system
     - python3 test_task/manage.py migrate
     - coverage run --source='.' test_task/manage.py test library
     - coverage report
+
+build_backend:
+  stage: build
+  script:
+    - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA .
+    - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
+
+build_frontend:
+  stage: build
+  script:
+    - cd ../frontend
+    - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
+    - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA
