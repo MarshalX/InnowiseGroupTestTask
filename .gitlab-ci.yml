@@ -25,6 +25,7 @@ test:
     - coverage report
 
 build_backend:
+  image: docker:18
   services:
     - docker:dind
   stage: build
@@ -34,6 +35,7 @@ build_backend:
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
 
 build_frontend:
+  image: docker:18
   services:
     - docker:dind
   stage: build
