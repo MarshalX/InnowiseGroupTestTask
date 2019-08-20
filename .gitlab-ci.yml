@@ -2,11 +2,11 @@ image: alpine
 
 stages:
   - test
+  - build
+  - deploy
 
 before_script:
-  - cd backend
-  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> test_task/test_task/.env
-  - echo "SECRET_KEY=$SECRET_KEY" >> test_task/test_task/.env
+  - export POSTGRES_HOST="postgres"
 
 test:
   stage: test
@@ -17,11 +17,59 @@ test:
     POSTGRES_USER: $POSTGRES_USER
     POSTGRES_PASSWORD: $POSTGRES_PASSWORD
   script:
+    - cd backend
     - apk update
-    - apk add postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
+    - apk add --no-cache openssh-client postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
     - pip3 install pipenv
-    - pipenv install --deploy --system
-    - pip3 install coverage
+    - pipenv install --dev --deploy --system
     - python3 test_task/manage.py migrate
     - coverage run --source='.' test_task/manage.py test library
     - coverage report
+
+build_backend:
+  image: docker:18
+  services:
+    - docker:dind
+  stage: build
+  only:
+    - master
+  script:
+    - cd backend
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA .
+    - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
+
+build_frontend:
+  image: docker:18
+  services:
+    - docker:dind
+  stage: build
+  only:
+    - master
+  script:
+    - cd frontend
+    - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+    - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
+    - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$DEPLOY_SERVER_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H $DEPLOYMENT_SERVER_IP >> ~/.ssh/known_hosts
+    - echo "SECRET_KEY=$SECRET_KEY" >> .env
+    - echo "POSTGRES_USER=$POSTGRES_USER" >> .env
+    - echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD" >> .env
+    - echo "POSTGRES_DB=$POSTGRES_DB" >> .env
+    - echo "POSTGRES_PORT=$POSTGRES_PORT" >> .env
+    - echo "POSTGRES_HOST=$POSTGRES_HOST" >> .env
+    - echo "CI_COMMIT_SHA=$CI_COMMIT_SHA" >> .env
+    - scp -r ./.env ./docker-compose.autodeploy.yml $DEPLOYMENT_SERVER_USER@${DEPLOYMENT_SERVER_IP}:~/
+    - ssh $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm backend --force; docker-compose -f docker-compose.autodeploy.yml rm frontend --force; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml up -d"

@@ -1,26 +1,24 @@
 version: '3'
 services:
   backend:
-    build: backend
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/backend:${CI_COMMIT_SHA}
     ports:
       - "8000:8000"
     depends_on:
       - db
     env_file:
-      - backend/.env
-    volumes:
-      - './backend/:/app/'
+      - .env
   frontend:
-    build: frontend
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:${CI_COMMIT_SHA}
     ports:
       - "80:80"
     depends_on:
       - backend
+    env_file:
+      - .env
   db:
     image: postgres
     env_file:
-      - backend/.env
-    ports:
-      - "5433:5432"
+      - .env
     volumes:
       - '/var/lib/postgresql/data'

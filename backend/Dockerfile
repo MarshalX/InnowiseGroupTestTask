@@ -12,7 +12,6 @@ COPY Pipfile.lock /app
 RUN set -ex && pipenv install --deploy --system
 
 COPY . /app
-COPY .env /app/test_task/test_task
 
 RUN chmod +x docker-entrypoint.sh
 CMD ["sh", "docker-entrypoint.sh"]

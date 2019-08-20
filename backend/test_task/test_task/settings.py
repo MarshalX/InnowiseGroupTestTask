@@ -1,7 +1,5 @@
 import os
 
-import environ
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -10,17 +8,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 
-env = environ.Env(
-    DEBUG=(bool, False)
-)
-
-environ.Env.read_env()
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.environ.get('DEBUG') or False
 
 ALLOWED_HOSTS = [
     '*'
@@ -39,7 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'crispy_forms',
     'corsheaders',
 
     'library.apps.LibraryConfig',
@@ -80,8 +71,6 @@ REST_FRAMEWORK = {
 
 DRF_AUTO_METADATA_ADAPTER = 'drf_auto_endpoint.adapters.ReactJsonSchemaAdapter'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-
 WSGI_APPLICATION = 'test_task.wsgi.application'
 
 
@@ -89,7 +78,14 @@ WSGI_APPLICATION = 'test_task.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST'),
+        'PORT': os.environ.get('POSTGRES_PORT'),
+    }
 }
 
 

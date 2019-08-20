@@ -4,11 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+coverage = "*"
 
 [packages]
 psycopg2-binary = "*"
-django-environ = "*"
-django-crispy-forms = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
 drf-schema-adapter = "*"
