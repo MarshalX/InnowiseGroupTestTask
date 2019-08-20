@@ -2,11 +2,17 @@ FROM python:3.7-alpine
 
 RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev jpeg-dev zlib-dev
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install pipenv
+
+WORKDIR app
+
+COPY Pipfile /app
+COPY Pipfile.lock /app
+
+RUN set -ex && pipenv install --deploy --system
 
 COPY . /app
-WORKDIR app
+COPY .env /app/test_task/test_task
 
 RUN chmod +x docker-entrypoint.sh
 CMD ["sh", "docker-entrypoint.sh"]
