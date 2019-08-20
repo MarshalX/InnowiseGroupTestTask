@@ -31,6 +31,8 @@ build_backend:
   services:
     - docker:dind
   stage: build
+  only:
+    - master
   script:
     - cd backend
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
@@ -42,6 +44,8 @@ build_frontend:
   services:
     - docker:dind
   stage: build
+  only:
+    - master
   script:
     - cd frontend
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
@@ -50,6 +54,8 @@ build_frontend:
 
 deploy:
   stage: deploy
+  only:
+    - master
   script:
     - apk add --no-cache openssh-client
     - mkdir -p ~/.ssh
