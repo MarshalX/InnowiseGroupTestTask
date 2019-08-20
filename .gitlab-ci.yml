@@ -4,8 +4,9 @@ stages:
   - test
 
 before_script:
-  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> backend/test_task/test_task/.env
-  - echo "SECRET_KEY=$SECRET_KEY" >> backend/test_task/test_task/.env
+  - cd backend
+  - echo "DATABASE_URL=psql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB" >> test_task/test_task/.env
+  - echo "SECRET_KEY=$SECRET_KEY" >> test_task/test_task/.env
 
 test:
   stage: test
@@ -21,6 +22,6 @@ test:
     - pip3 install pipenv
     - pipenv install --deploy --system
     - pip3 install coverage
-    - python3 backend/test_task/manage.py migrate
-    - coverage run --source='backend' backend/test_task/manage.py test library
+    - python3 test_task/manage.py migrate
+    - coverage run --source='.' test_task/manage.py test library
     - coverage report
