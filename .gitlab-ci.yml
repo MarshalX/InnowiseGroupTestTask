@@ -28,12 +28,14 @@ test:
     - coverage report
 
 build_backend:
+  image: docker:18
   stage: build
   script:
     - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/backend:$CI_COMMIT_SHA
 
 build_frontend:
+  image: docker:18
   stage: build
   script:
     - cd ../frontend
