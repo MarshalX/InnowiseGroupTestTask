@@ -1,0 +1,22 @@
+version: '3'
+services:
+  backend:
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/backend:latest
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    env_file:
+      - backend/.env
+  frontend:
+    image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+  db:
+    image: postgres
+    env_file:
+      - backend/.env
+    volumes:
+      - '/var/lib/postgresql/data'
