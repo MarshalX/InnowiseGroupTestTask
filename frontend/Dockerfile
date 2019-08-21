@@ -7,8 +7,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 ARG API_HOST
 ARG API_PORT
 
-ENV API_HOST=${API_HOST}
-ENV API_PORT=${API_PORT}
+ENV REACT_APP_API_HOST=${API_HOST}
+ENV REACT_APP_API_PORT=${API_PORT}
 
 COPY package.json /app
 RUN yarn install --frozen-lockfile
