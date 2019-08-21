@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Table from 'react-bootstrap/Table'
+import {Button} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
 
 
 class BooksTable extends React.Component {
     propTypes = {
         data: PropTypes.array.isRequired,
     };
-    static header = ["Название", "Автор", "Дата издания", "Количество страниц"];
+    static header = ["Название", "Автор", "Дата издания", "Количество страниц", ""];
 
     make_header = (items) => <tr>
         {items.map((elr, idx) => <th key={idx}>{elr}</th>)}
@@ -15,6 +17,13 @@ class BooksTable extends React.Component {
 
     make_element = (el) => <tr key={el.id}>
         {Object.entries(el).slice(1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+        <td>
+            <LinkContainer to={"/book/" + el.id + "/edit"}>
+                <Button variant="warning">
+                    Редактировать
+                </Button>
+            </LinkContainer>
+        </td>
     </tr>;
 
     render() {

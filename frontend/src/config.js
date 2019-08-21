@@ -1,11 +1,5 @@
-let api_server = "localhost";
-let api_port = "8000";
-
-const env = window._env_;
-if(env) {
-    api_server = env.API_HOST;
-    api_port = env.API_PORT;
-}
+let api_server = process.env.API_HOST || 'localhost';
+let api_port = process.env.API_PORT || 8000;
 
 const api_path = api_server + ":" + api_port;
 
