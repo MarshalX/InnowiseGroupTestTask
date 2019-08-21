@@ -49,9 +49,7 @@ build_frontend:
   script:
     - cd frontend
     - echo -n $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
-    - export API_HOST="$API_HOST"
-    - export API_PORT="$API_PORT"
-    - docker build -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
+    - docker build --build-arg API_HOST="$API_HOST" --build-arg API_PORT="$API_PORT" -t registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA .
     - docker push registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:$CI_COMMIT_SHA
 
 deploy:

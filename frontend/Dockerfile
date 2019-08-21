@@ -4,6 +4,12 @@ FROM node:12.7.0-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
+ARG API_HOST
+ARG API_PORT
+
+ENV API_HOST=${API_HOST}
+ENV API_PORT=${API_PORT}
+
 COPY package.json /app
 RUN yarn install --frozen-lockfile
 
