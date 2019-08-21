@@ -3,6 +3,8 @@ import React from "react";
 import Form from "react-jsonschema-form";
 import PropTypes from "prop-types";
 
+import {api_url} from "../config";
+
 
 class BookForm extends React.Component {
     static propTypes = {
@@ -18,7 +20,7 @@ class BookForm extends React.Component {
     }
 
     getInitialData = (id) =>
-        fetch('http://127.0.0.1:8000/api/books/' + id)
+        fetch(api_url + 'api/books/' + id)
             .then(response => {
                 if (response.status === 200) {
                     return response.json();

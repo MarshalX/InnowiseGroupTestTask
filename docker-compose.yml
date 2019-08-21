@@ -5,7 +5,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - postgres
     env_file:
       - backend/.env
     volumes:
@@ -16,7 +16,7 @@ services:
       - "80:80"
     depends_on:
       - backend
-  db:
+  postgres:
     image: postgres
     env_file:
       - backend/.env
