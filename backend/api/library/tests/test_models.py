@@ -1,29 +1,27 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 
 from library.models import Book, User
-UserModel = get_user_model()
 
 
 class UserModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user = UserModel.objects.create_user(
+        user = User.objects.create_user(
             username='Test',
             email='test@test.te',
             password='password'
         )
 
     def test_user_db_table(self):
-        user = User.objects.get(user__username='Test')
+        user = User.objects.get(username='Test')
         db_table = user._meta.db_table
-        self.assertEquals(db_table, 'User')
+        self.assertEquals(db_table, 'library_user')
 
 
 class BookModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        user = UserModel.objects.create_user(
+        user = User.objects.create_user(
             username='Test',
             email='test@test.te',
             password='password'
@@ -31,9 +29,9 @@ class BookModelTest(TestCase):
         Book.objects.create(
             name='Big',
             author='Bob',
-            publication_year=2000,
             pages=10,
-            user=user.user
+            price=0,
+            user=user
         )
 
     def test_name_label(self):
@@ -56,17 +54,22 @@ class BookModelTest(TestCase):
         max_length = book._meta.get_field('author').max_length
         self.assertEquals(max_length, 255)
 
-    def test_publication_year_label(self):
+    def test_created_date_label(self):
         book = Book.objects.get(id=1)
-        field_label = book._meta.get_field('publication_year').verbose_name
-        self.assertEquals(field_label, 'Год издания')
+        field_label = book._meta.get_field('created_date').verbose_name
+        self.assertEquals(field_label, 'Дата создания')
+
+    def test_updated_date_label(self):
+        book = Book.objects.get(id=1)
+        field_label = book._meta.get_field('updated_date').verbose_name
+        self.assertEquals(field_label, 'Дата изменения')
 
     def test_pages_label(self):
         book = Book.objects.get(id=1)
         field_label = book._meta.get_field('pages').verbose_name
         self.assertEquals(field_label, 'Количество страниц')
 
-    def test_object_name_is_book_name_dash_author_bracket_publication_year_bracket(self):
+    def test_object_name_is_book_name_dash_author_bracket_price_bracket(self):
         book = Book.objects.get(id=1)
-        expected_object_name = f'{book.name} - {book.author} ({book.publication_year})'
+        expected_object_name = f'{book.name} - {book.author} ({book.price})'
         self.assertEquals(expected_object_name, str(book))

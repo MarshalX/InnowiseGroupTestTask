@@ -1,46 +1,53 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.db.models import Avg
 
-UserModel = get_user_model()
+RATING_CHOICES = {(i, i) for i in range(1, 11)}
 
 
 class Book(models.Model):
     class Meta:
-        db_table = 'Book'
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
 
     name = models.CharField(
-        name='name',
         verbose_name='Название',
         max_length=255
     )
     author = models.CharField(
-        name='author',
         verbose_name='Автор',
         max_length=255
     )
-    publication_year = models.IntegerField(
-        name='publication_year',
-        verbose_name='Год издания'
+    price = models.IntegerField(
+        verbose_name='Цена'
     )
     pages = models.IntegerField(
-        name='pages',
         verbose_name='Количество страниц'
+    )
+    created_date = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата создания'
+    )
+    updated_date = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Дата изменения'
+    )
+    rating = models.PositiveSmallIntegerField(
+        default=0,
+        choices=RATING_CHOICES,
+        verbose_name='Рейтинг'
     )
     user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.name} - {self.author} ({self.publication_year})'
+        return f'{self.name} - {self.author} ({self.price})'
 
 
-class User(models.Model):
+class User(AbstractUser):
     class Meta:
-        db_table = 'User'
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     avatar = models.ImageField(
         upload_to='avatars/',
         blank=True,
@@ -48,5 +55,6 @@ class User(models.Model):
         verbose_name='Аватарка'
     )
 
-    def __str__(self):
-        return str(self.user)
+    @property
+    def avg_books_price(self):
+        return self.book_set.aggregate(avg_price=Avg('price'))
