@@ -16,7 +16,8 @@ class BooksTable extends React.Component {
     </tr>;
 
     make_element = (el) => <tr key={el.id}>
-        {Object.entries(el).slice(1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+        {Object.entries(el).slice(1, -1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+        <td key={Object.entries(el).length}>{(Object.entries(el).pop()[1] / 100).toFixed(2)}</td>
         <td>
             <LinkContainer to={"/book/" + el.id + "/edit"}>
                 <Button variant="warning">

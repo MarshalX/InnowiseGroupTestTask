@@ -17,11 +17,11 @@ class BooksViewSet(viewsets.ModelViewSet):
 
 class UsersViewSet(viewsets.ModelViewSet):
     pagination_class = Pagination
-    queryset = User.objects.all()
+    queryset = User.objects.get_queryset().order_by('id')
     serializer_class = UserSerializer
 
 
 class ShortUsersViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = Pagination
-    queryset = User.objects.all()
+    queryset = User.objects.get_queryset().order_by('id')
     serializer_class = ShortUserSerializer

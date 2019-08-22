@@ -16,7 +16,7 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
 class ShortUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'avatar', 'username', 'books_count')
+        fields = ('id', 'avatar', 'username', 'books_count', 'avg_books_price')
 
     books_count = serializers.IntegerField(
         source='book_set.count',
