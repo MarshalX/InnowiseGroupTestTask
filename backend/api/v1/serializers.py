@@ -10,15 +10,7 @@ from library.models import Book, User
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'name', 'author', 'price', 'pages', 'created_date', 'updated_date', 'rating')
-
-    created_date = serializers.DateTimeField(
-        read_only=True
-    )
-
-    updated_date = serializers.DateTimeField(
-        read_only=True
-    )
+        fields = ('id', 'name', 'author', 'pages', 'rating', 'price')
 
 
 class ShortUserSerializer(serializers.ModelSerializer):
