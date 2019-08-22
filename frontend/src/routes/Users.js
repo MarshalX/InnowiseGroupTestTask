@@ -22,8 +22,10 @@ class Users extends React.Component {
     };
 
     render() {
-        return <DataProvider endpoint={api_url + 'api/short_user/'}
-                             render={data => <UsersTable data={data.results} onDelete={this.onClickDelete}/>}
+        const page = this.props.match.params.page;
+
+        return <DataProvider endpoint={api_url + 'api/short_user/?page=' + (page || 1)}
+                             render={data => <UsersTable data={data} page={page || 1} onDelete={this.onClickDelete}/>}
                              updated={true}/>
     }
 }

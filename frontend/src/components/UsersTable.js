@@ -36,18 +36,33 @@ class UsersTable extends React.Component {
 
     render() {
         const data = this.props.data;
+        const page = this.props.page;
 
-        return !data.length ? (
+        return !data || !data.results.length ? (
             <p>Нечего показывать</p>
         ) : (
-            <Table hover={true}>
-                <thead className="thead-dark">
-                {this.make_header(UsersTable.header)}
-                </thead>
-                <tbody>
-                {data.map(el => this.make_element(el))}
-                </tbody>
-            </Table>
+            <span>
+                <Table hover={true} className="mb-3">
+                    <thead className="thead-dark">
+                    {this.make_header(UsersTable.header)}
+                    </thead>
+                    <tbody>
+                    {data.results.map(el => this.make_element(el))}
+                    </tbody>
+                </Table>
+                <ButtonToolbar className="btn-group">
+                    {data.previous ? <LinkContainer to={"/" + (parseInt(page) - 1)}>
+                        <Button variant="outline-primary">
+                            ← Туда
+                        </Button>
+                    </LinkContainer> : null}
+                    {data.next ? <LinkContainer to={"/" + (parseInt(page) + 1)}>
+                        <Button variant="outline-primary">
+                            Сюда →
+                        </Button>
+                    </LinkContainer> : null}
+                </ButtonToolbar>
+            </span>
         )
     }
 }
