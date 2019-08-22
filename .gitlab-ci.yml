@@ -72,4 +72,4 @@ deploy:
     - echo "POSTGRES_HOST=$POSTGRES_HOST" >> .env
     - echo "CI_COMMIT_SHA=$CI_COMMIT_SHA" >> .env
     - scp -r ./.env ./docker-compose.autodeploy.yml $DEPLOYMENT_SERVER_USER@${DEPLOYMENT_SERVER_IP}:~/
-    - ssh $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm -f backend frontend; docker-compose -f docker-compose.autodeploy.yml up -d"
+    - ssh $DEPLOYMENT_SERVER_USER@$DEPLOYMENT_SERVER_IP "docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}; docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest; docker-compose -f docker-compose.autodeploy.yml stop; docker-compose -f docker-compose.autodeploy.yml rm -f backend frontend postgres; docker-compose -f docker-compose.autodeploy.yml up -d"
