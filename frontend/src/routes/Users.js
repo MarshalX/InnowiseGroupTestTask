@@ -8,7 +8,7 @@ const UsersTable = lazy(() => import('../components/UsersTable'));
 class Users extends React.Component {
     onClickDelete = (id, event) => {
         fetch(
-            api_url + 'api/short_user/' + id,
+            api_url + 'api/user/' + id,
             {method: 'DELETE'}
         ).then(response => {
             if (response.status !== 204) {
@@ -23,7 +23,7 @@ class Users extends React.Component {
 
     render() {
         return <DataProvider endpoint={api_url + 'api/short_user/'}
-                             render={data => <UsersTable data={data} onDelete={this.onClickDelete}/>}
+                             render={data => <UsersTable data={data.results} onDelete={this.onClickDelete}/>}
                              updated={true}/>
     }
 }

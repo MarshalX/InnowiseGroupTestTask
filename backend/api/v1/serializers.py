@@ -1,33 +1,22 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.exceptions import ValidationError
 
 from rest_framework import serializers
 
 from library.models import Book, User
 
-UserModel = get_user_model()
 
-
-class UserModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserModel
-        fields = ('username', 'date_joined')
-
-
-class BooksSerializer(serializers.HyperlinkedModelSerializer):
+class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'name', 'author', 'publication_year', 'pages')
+        fields = ('id', 'name', 'author', 'pages', 'rating', 'price')
 
 
-class ShortUsersSerializer(serializers.ModelSerializer):
+class ShortUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'username', 'books_count')
-
-    username = serializers.CharField(
-        source='user.username',
-        read_only=True
-    )
 
     books_count = serializers.IntegerField(
         source='book_set.count',
@@ -35,14 +24,47 @@ class ShortUsersSerializer(serializers.ModelSerializer):
     )
 
 
-class UsersSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'avatar', 'user', 'books')
+        fields = ('id', 'avatar', 'username', 'books', 'password', 'password_repeat')
 
-    user = UserModelSerializer()
-
-    books = BooksSerializer(
+    password = serializers.CharField(
+        write_only=True,
+        validators=(validate_password,),
+        style={'input_type': 'password'}
+    )
+    password_repeat = serializers.CharField(
+        write_only=True,
+        style={'input_type': 'password'}
+    )
+    books = BookSerializer(
         source='book_set',
+        read_only=True,
         many=True
     )
+
+    def validate(self, attrs):
+        username = attrs.get('username')
+
+        errors = dict()
+
+        try:
+            UnicodeUsernameValidator(username)
+        except ValidationError as e:
+            errors['username'] = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        user = User(
+            username=validated_data.get('username'),
+            avatar=validated_data.get('avatar')
+        )
+        user.set_password(validated_data.get('password'))
+        user.save()
+
+        return user

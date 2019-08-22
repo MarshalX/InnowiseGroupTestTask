@@ -15,7 +15,7 @@ class UsersDetails extends React.Component {
         }
 
         return <span>
-            <h1>Книги пользователя {data.user.username}</h1>
+            <h1>Книги пользователя {data.username}</h1>
             <BooksTable data={data.books} />
         </span>
     }
