@@ -22,8 +22,8 @@ test:
     - apk add --no-cache openssh-client postgresql-dev gcc musl-dev python3-dev py3-pip jpeg-dev zlib-dev
     - pip3 install pipenv
     - pipenv install --dev --deploy --system
-    - python3 test_task/manage.py migrate
-    - coverage run --source='.' test_task/manage.py test library
+    - python3 api/manage.py migrate
+    - coverage run --source='.' api/manage.py test library
     - coverage report
 
 build_backend:
