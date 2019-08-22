@@ -9,7 +9,7 @@ class BooksTable extends React.Component {
     propTypes = {
         data: PropTypes.array.isRequired,
     };
-    static header = ["Название", "Автор", "Дата издания", "Количество страниц", ""];
+    static header = ["Название", "Автор", "Количество страниц", "Рейтинг", "Цена", ""];
 
     make_header = (items) => <tr>
         {items.map((elr, idx) => <th key={idx}>{elr}</th>)}

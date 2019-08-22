@@ -25,8 +25,8 @@ class Book(models.Model):
         verbose_name='Количество страниц'
     )
     created_date = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Дата создания'
+        auto_now_add=True,
+        verbose_name='Дата создания',
     )
     updated_date = models.DateTimeField(
         auto_now=True,
