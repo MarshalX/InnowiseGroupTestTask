@@ -5,6 +5,3 @@ class LibraryConfig(AppConfig):
     name = 'library'
     verbose_name = 'Библиотека'
     verbose_name_plural = verbose_name
-
-    def ready(self):
-        from . import signals

@@ -1,5 +1,5 @@
 #!/bin/sh
-cd test_task
+cd api
 python manage.py migrate
 python manage.py loaddata library/fixtures/auth_user_initial_data
 python manage.py loaddata library/fixtures/library_initial_data

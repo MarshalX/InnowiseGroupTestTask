@@ -1,4 +1,4 @@
-test_task/avatars
+api/avatars
 staticfiles/
 *.iml
 

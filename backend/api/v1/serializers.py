@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 
-from .models import Book, User
+from library.models import Book, User
 
 UserModel = get_user_model()
 

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from .models import User, Book
+from library.models import User, Book
 from .serializers import BooksSerializer, UsersSerializer, ShortUsersSerializer
 
 
