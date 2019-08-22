@@ -10,7 +10,7 @@ class UsersTable extends React.Component {
         data: PropTypes.array.isRequired,
         onDelete: PropTypes.func.isRequired
     };
-    static header = ["Аватарка", "Логин", "Количество книг", ""];
+    static header = ["Аватарка", "Логин", "Количество книг", "Средняя цена всех книг", ""];
 
     make_header = (items) => <tr>
         {items.map((elr, idx) => <th key={idx}>{elr}</th>)}
@@ -18,7 +18,8 @@ class UsersTable extends React.Component {
 
     make_element = (el) => <LinkContainer to={"/user/" + el.id}>
         <tr key={el.id}>
-            {Object.entries(el).slice(1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+            {Object.entries(el).slice(1, -1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+            <td key={Object.entries(el).length}>{(Object.entries(el).pop()[1] / 100).toFixed(2)}</td>
             <td>
                 <ButtonToolbar className="btn-group">
                     <LinkContainer to={"/user/" + el.id + "/edit"}>

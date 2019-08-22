@@ -57,4 +57,4 @@ class User(AbstractUser):
 
     @property
     def avg_books_price(self):
-        return self.book_set.aggregate(avg_price=Avg('price'))
+        return self.book_set.aggregate(avg_price=Avg('price')).get('avg_price')
