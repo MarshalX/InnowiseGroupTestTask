@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import BooksViewSet, UsersViewSet, ShortUsersViewSet
+from v1.views import BooksViewSet, UsersViewSet, ShortUsersViewSet
 
 
 router = routers.DefaultRouter()
