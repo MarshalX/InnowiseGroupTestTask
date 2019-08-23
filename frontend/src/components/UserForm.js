@@ -35,7 +35,7 @@ class UserForm extends React.Component {
                 formData.append('avatar', this.fileInput.current.files[0]);
 
             fetch(
-                api_url + 'api/user/' + (this.props.initial ? this.props.initial.id : '') + '/',
+                api_url + 'api/user/' + (this.props.initial ? this.props.initial.id + '/': ''),
                 {
                     method: this.props.edit ? 'PUT' : 'POST',
                     body: formData
