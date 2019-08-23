@@ -10,6 +10,7 @@ const BookEdit = lazy(() => import('../routes/BookEdit'));
 
 const Users = lazy(() => import('../routes/Users'));
 const UserPage = lazy(() => import('../routes/UserPage'));
+const UserEdit = lazy(() => import('../routes/UserEdit'));
 
 
 const App = () =>
@@ -23,6 +24,7 @@ const App = () =>
                 <Route exact path="/" component={Users}/>
                 <Route exact path="/:page" component={Users}/>
                 <Route exact path="/user/:id" component={UserPage}/>
+                <Route exact path="/user/:id/edit" component={UserEdit}/>
             </Switch>
         </Content>
     </Suspense>

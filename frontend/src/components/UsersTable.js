@@ -53,7 +53,7 @@ class UsersTable extends React.Component {
                     {data.results.map(el => this.make_element(el))}
                     </tbody>
                 </Table>
-                <ButtonToolbar className="btn-group">
+                <ButtonToolbar className="btn-group mb-3">
                     {data.previous ? <LinkContainer to={"/" + (parseInt(page) - 1)}>
                         <Button variant="outline-primary">
                             ← Туда

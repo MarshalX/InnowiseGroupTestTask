@@ -3,6 +3,7 @@ import DataProvider from "../components/DataProvider";
 import {api_url} from "../config";
 
 const UsersTable = lazy(() => import('../components/UsersTable'));
+const UserForm = lazy(() => import('../components/UserForm'));
 
 
 class Users extends React.Component {
@@ -24,9 +25,12 @@ class Users extends React.Component {
     render() {
         const page = this.props.match.params.page;
 
-        return <DataProvider endpoint={api_url + 'api/short_user/?page=' + (page || 1)}
-                             render={data => <UsersTable data={data} page={page || 1} onDelete={this.onClickDelete}/>}
-                             updated={true}/>
+        return <div>
+            <DataProvider endpoint={api_url + 'api/short_user/?page=' + (page || 1)}
+                          render={data => <UsersTable data={data} page={page || 1} onDelete={this.onClickDelete}/>}
+                          updated={true}/>
+            <UserForm />
+        </div>
     }
 }
 
