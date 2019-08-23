@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {LinkContainer} from 'react-router-bootstrap'
 import Table from 'react-bootstrap/Table'
 import {Button, ButtonToolbar} from "react-bootstrap";
+import Avatar from './Avatar'
 
 
 class UsersTable extends React.Component {
@@ -18,7 +19,8 @@ class UsersTable extends React.Component {
 
     make_element = (el) => <LinkContainer to={"/user/" + el.id}>
         <tr key={el.id}>
-            {Object.entries(el).slice(1, -1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
+            <Avatar data={Object.entries(el)[1]}/>
+            {Object.entries(el).slice(2, -1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
             <td key={Object.entries(el).length}>{(Object.entries(el).pop()[1] / 100).toFixed(2)}</td>
             <td>
                 <ButtonToolbar className="btn-group">

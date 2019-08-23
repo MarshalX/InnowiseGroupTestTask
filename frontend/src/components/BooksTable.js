@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Table from 'react-bootstrap/Table'
-import {Button} from "react-bootstrap";
+import {Button, ButtonToolbar} from "react-bootstrap";
 import {LinkContainer} from "react-router-bootstrap";
 
 
 class BooksTable extends React.Component {
     propTypes = {
         data: PropTypes.array.isRequired,
+        onDelete: PropTypes.func.isRequired
     };
     static header = ["Название", "Автор", "Количество страниц", "Рейтинг", "Цена", ""];
 
@@ -19,11 +20,16 @@ class BooksTable extends React.Component {
         {Object.entries(el).slice(1, -1).map((elr, idx) => <td key={idx}>{elr[1]}</td>)}
         <td key={Object.entries(el).length}>{(Object.entries(el).pop()[1] / 100).toFixed(2)}</td>
         <td>
-            <LinkContainer to={"/book/" + el.id + "/edit"}>
-                <Button variant="warning">
-                    Редактировать
+            <ButtonToolbar className="btn-group">
+                <LinkContainer to={"/book/" + el.id + "/edit"}>
+                    <Button variant="warning">
+                        Редактировать
+                    </Button>
+                </LinkContainer>
+                <Button variant="danger" onClick={(e) => this.props.onDelete(el.id, e)}>
+                    Удалить
                 </Button>
-            </LinkContainer>
+            </ButtonToolbar>
         </td>
     </tr>;
 
