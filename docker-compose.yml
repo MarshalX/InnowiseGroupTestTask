@@ -10,12 +10,15 @@ services:
       - backend/.env
     volumes:
       - './backend/:/app/'
+      - '~/media/avatars/:/app/api/avatars'
   frontend:
     build: frontend
     ports:
       - "80:80"
     depends_on:
       - backend
+    volumes:
+      - '~/media/avatars/:/usr/share/nginx/html/media/avatars'
   postgres:
     image: postgres
     env_file:
@@ -23,4 +26,9 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - '/var/lib/postgresql/data'
+      - 'data-postgres:/var/lib/postgresql/data'
+
+
+volumes:
+  data-postgres:
+    driver: local
