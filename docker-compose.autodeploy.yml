@@ -8,6 +8,8 @@ services:
       - postgres
     env_file:
       - .env
+    volumes:
+      - '~/media/avatars/:/app/api/avatars'
   frontend:
     image: registry.gitlab.com/marshalx/innowisegrouptesttask/frontend:${CI_COMMIT_SHA}
     ports:
@@ -16,6 +18,8 @@ services:
       - backend
     env_file:
       - .env
+    volumes:
+      - '~/media/avatars/:/usr/share/nginx/html/media/avatars'
   postgres:
     image: postgres
     env_file:

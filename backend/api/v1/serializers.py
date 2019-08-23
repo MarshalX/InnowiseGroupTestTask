@@ -27,16 +27,13 @@ class ShortUserSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'avatar', 'username', 'books', 'password', 'password_repeat')
+        fields = ('id', 'avatar', 'username', 'books', 'password')
 
     password = serializers.CharField(
         write_only=True,
         validators=(validate_password,),
-        style={'input_type': 'password'}
-    )
-    password_repeat = serializers.CharField(
-        write_only=True,
-        style={'input_type': 'password'}
+        style={'input_type': 'password'},
+        required=False
     )
     books = BookSerializer(
         source='book_set',
