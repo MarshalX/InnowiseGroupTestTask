@@ -26,6 +26,9 @@ class BookForm extends React.Component {
         const data = this.formApi.getState();
 
         if (!data.invalid) {
+            if (this.props.user)
+                data.values.user = this.props.user;
+
             fetch(
                 api_url + 'api/books/' + (this.props.initial ? this.props.initial.id + '/' : ''),
                 {

@@ -10,7 +10,9 @@ from library.models import Book, User
 class BookSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
-        fields = ('id', 'name', 'author', 'pages', 'rating', 'price')
+        fields = ('id', 'name', 'author', 'pages', 'rating', 'price', 'user')
+
+    user = serializers.PrimaryKeyRelatedField(queryset=User.objects, required=False)
 
 
 class ShortUserSerializer(serializers.ModelSerializer):

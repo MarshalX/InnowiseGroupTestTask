@@ -11,7 +11,7 @@ class Pagination(PageNumberPagination):
     max_page_size = 5
 
 class BooksViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Book.objects.get_queryset().order_by('-id')
     serializer_class = BookSerializer
 
 
