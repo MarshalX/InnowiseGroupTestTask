@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BooksTable from "./BooksTable";
+import BookForm from "./BookForm";
 
 class UsersDetails extends React.Component {
     propTypes = {
@@ -15,8 +16,10 @@ class UsersDetails extends React.Component {
         }
 
         return <span>
-            <h1>Книги пользователя {data.username}</h1>
+            <h1>Книги пользователя {data.username}:</h1>
             <BooksTable data={data.books} />
+            <h1>Добавить новую книгу пользователю:</h1>
+            <BookForm user={data.id} />
         </span>
     }
 }
