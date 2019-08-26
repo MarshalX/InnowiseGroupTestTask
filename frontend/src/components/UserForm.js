@@ -35,7 +35,7 @@ class UserForm extends React.Component {
                 formData.append('avatar', this.fileInput.current.files[0]);
 
             fetch(
-                api_url + 'api/user/' + (this.props.initial ? this.props.initial.id + '/': ''),
+                api_url + 'api/user/' + (this.props.initial ? this.props.initial.id + '/' : ''),
                 {
                     method: this.props.edit ? 'PUT' : 'POST',
                     body: formData
@@ -73,12 +73,11 @@ class UserForm extends React.Component {
                 </Alert>
             ) : null}
 
-            {console.log(this.props.initial)}
-
-            <IForm initialValues={{username: this.props.initial ? this.props.initial.username : null}} getApi={this.setFormApi} onSubmit={this.onSubmit}>
+            <IForm initialValues={{username: this.props.initial ? this.props.initial.username : null}}
+                   getApi={this.setFormApi} onSubmit={this.onSubmit}>
                 <Form.Group controlId="formUsername">
                     <Form.Label>Юзернейм</Form.Label>
-                    <Text validate={this.validate_username} field="username"/>
+                    <Text validate={this.validate_username} validateOnChange field="username"/>
                 </Form.Group>
 
                 <Form.Group controlId="formAvatar">
