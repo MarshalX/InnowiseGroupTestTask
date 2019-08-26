@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 coverage = "*"
 faker = "*"
-django-debug-toolbar = "*"
 
 [packages]
 psycopg2-binary = "*"
@@ -15,6 +14,7 @@ django-cors-headers = "*"
 drf-schema-adapter = "*"
 Django = "*"
 Pillow = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.7"
