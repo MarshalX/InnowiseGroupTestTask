@@ -37,7 +37,7 @@ class Book(models.Model):
         choices=RATING_CHOICES,
         verbose_name='Рейтинг'
     )
-    user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True, blank=True)
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING, null=True, blank=True, related_name='books')
 
     def __str__(self):
         return f'{self.name} - {self.author} ({self.price})'
@@ -54,7 +54,3 @@ class User(AbstractUser):
         null=True,
         verbose_name='Аватарка'
     )
-
-    @property
-    def avg_books_price(self):
-        return self.book_set.aggregate(avg_price=Avg('price')).get('avg_price')

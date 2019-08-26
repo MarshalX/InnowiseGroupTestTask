@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 coverage = "*"
 faker = "*"
+django-debug-toolbar = "*"
 
 [packages]
 psycopg2-binary = "*"

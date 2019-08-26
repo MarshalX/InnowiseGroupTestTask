@@ -18,6 +18,9 @@ ALLOWED_HOSTS = [
     '*'
 ]
 
+if DEBUG:
+    DEBUG_TOOLBAR_CONFIG = {'SHOW_TOOLBAR_CALLBACK': lambda _: True,}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -32,12 +35,15 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'debug_toolbar',
 
     'library.apps.LibraryConfig',
     'v1.apps.V1Config',
 ]
 
+
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

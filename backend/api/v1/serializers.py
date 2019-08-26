@@ -20,8 +20,13 @@ class ShortUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'avatar', 'username', 'books_count', 'avg_books_price')
 
+    avg_books_price = serializers.SerializerMethodField()
+
+    def get_avg_books_price(self, obj):
+        return obj.avg_price
+
     books_count = serializers.IntegerField(
-        source='book_set.count',
+        source='books.count',
         read_only=True
     )
 
@@ -38,7 +43,6 @@ class UserSerializer(serializers.ModelSerializer):
         required=False
     )
     books = BookSerializer(
-        source='book_set',
         read_only=True,
         many=True
     )

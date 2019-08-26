@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 
@@ -17,11 +18,11 @@ class BooksViewSet(viewsets.ModelViewSet):
 
 class UsersViewSet(viewsets.ModelViewSet):
     pagination_class = Pagination
-    queryset = User.objects.get_queryset().order_by('-id')
+    queryset = User.objects.prefetch_related('books').order_by('-id')
     serializer_class = UserSerializer
 
 
 class ShortUsersViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = Pagination
-    queryset = User.objects.get_queryset().order_by('-id')
+    queryset = User.objects.prefetch_related('books').annotate(avg_price=Avg('books__price')).order_by('-id')
     serializer_class = ShortUserSerializer
