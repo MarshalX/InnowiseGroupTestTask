@@ -1,12 +1,12 @@
 import React from 'react';
-import { asField } from 'informed';
-import { Form } from "react-bootstrap";
+import {asField} from 'informed';
+import {Form} from "react-bootstrap";
 
 
-const Text = asField(({ fieldState, fieldApi, ...props }) => {
-    const { value } = fieldState;
-    const { setValue, setTouched } = fieldApi;
-    const { onChange, onBlur, initialValue, forwardedRef, ...rest } = props;
+const Text = asField(({fieldState, fieldApi, ...props}) => {
+    const {value} = fieldState;
+    const {setValue, setTouched} = fieldApi;
+    const {onChange, onBlur, initialValue, forwardedRef, ...rest} = props;
     return (
         <React.Fragment>
             <Form.Control

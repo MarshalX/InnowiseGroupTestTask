@@ -17,9 +17,9 @@ class UsersDetails extends React.Component {
 
         return <span>
             <h1>Книги пользователя {data.username}:</h1>
-            <BooksTable data={data.books} />
+            <BooksTable data={data.books}/>
             <h1>Добавить новую книгу пользователю:</h1>
-            <BookForm user={data.id} />
+            <BookForm user={data.id}/>
         </span>
     }
 }

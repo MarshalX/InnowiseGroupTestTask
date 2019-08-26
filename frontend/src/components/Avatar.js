@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Row, Col, Image} from 'react-bootstrap'
+import {Col, Container, Image, Row} from 'react-bootstrap'
 
 
 class Avatar extends React.Component {

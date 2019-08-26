@@ -10,7 +10,7 @@ class UserEdit extends React.Component {
         return <span>
             <h1>Редактирование пользователя:</h1>
             <DataProvider endpoint={api_url + 'api/user/' + this.props.match.params.id}
-                          render={data => <UserForm edit={true} initial={data}/>} />
+                          render={data => <UserForm edit={true} initial={data}/>}/>
         </span>
     }
 }

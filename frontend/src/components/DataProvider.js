@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 
 
@@ -40,18 +40,18 @@ class DataProvider extends Component {
         fetch(this.props.endpoint, {'method': this.method})
             .then(response => {
                 if (response.status !== 200) {
-                    return this.setState({ placeholder: "Something went wrong" });
+                    return this.setState({placeholder: "Something went wrong"});
                 }
                 return response.json();
             })
             .then(data => {
                 this.loaded = true;
-                this.setState({ data: data });
+                this.setState({data: data});
             });
     };
 
     render() {
-        const { data, placeholder } = this.state;
+        const {data, placeholder} = this.state;
         return this.loaded ? this.props.render(data) : <p>{placeholder}</p>;
     }
 }
