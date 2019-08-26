@@ -5,6 +5,6 @@ import App from "./components/App";
 
 const wrapper = document.getElementById("app");
 
-if(wrapper){
+if (wrapper) {
     ReactDOM.render(<App/>, wrapper)
 }

@@ -14,7 +14,7 @@ class Books extends React.Component {
                           render={data => <BooksTable data={data}/>}
                           updated={true}/>
             <h1>Добавить новую книгу:</h1>
-            <BookForm />
+            <BookForm/>
         </span>
     }
 }

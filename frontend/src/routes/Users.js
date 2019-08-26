@@ -29,7 +29,7 @@ class Users extends React.Component {
             <DataProvider endpoint={api_url + 'api/short_user/?page=' + (page || 1)}
                           render={data => <UsersTable data={data} page={page || 1} onDelete={this.onClickDelete}/>}
                           updated={true}/>
-            <UserForm />
+            <UserForm/>
         </div>
     }
 }
