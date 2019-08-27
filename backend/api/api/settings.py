@@ -34,8 +34,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
+
     'corsheaders',
     'debug_toolbar',
+    'djoser',
 
     'library.apps.LibraryConfig',
     'v1.apps.V1Config',
@@ -73,6 +76,9 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ],
     'DEFAULT_METADATA_CLASS': 'drf_auto_endpoint.metadata.AutoMetadata',
 }
 

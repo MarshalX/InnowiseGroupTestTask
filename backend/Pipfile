@@ -15,6 +15,7 @@ drf-schema-adapter = "*"
 Django = "*"
 Pillow = "*"
 django-debug-toolbar = "*"
+djoser = "*"
 
 [requires]
 python_version = "3.7"
