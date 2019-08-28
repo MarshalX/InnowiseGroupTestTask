@@ -1,7 +1,7 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
-
 from rest_framework import serializers
 
 from library.models import Book, User
@@ -13,6 +13,28 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'name', 'author', 'pages', 'rating', 'price', 'user')
 
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects, required=False)
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        user = authenticate(username=attrs['username'], password=attrs['password'])
+
+        if not user:
+            raise serializers.ValidationError('Неправильный логин или пароль.')
+
+        if not user.is_active:
+            raise serializers.ValidationError('Пользователь заблокирован')
+
+        return {'user': user}
+
+
+class MeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'is_staff', 'avatar', 'date_joined')
 
 
 class ShortUserSerializer(serializers.ModelSerializer):
