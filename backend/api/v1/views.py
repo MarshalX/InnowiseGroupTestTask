@@ -1,19 +1,20 @@
 from django.contrib.auth import login, logout
 from django.db.models import Avg
+from rest_framework import permissions
 from rest_framework import viewsets, views
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from library.models import User, Book
-from v1.serializers import BookSerializer, UserSerializer, ShortUserSerializer, MeSerializer, LoginSerializer
+from v1.serializers import BookSerializer, UserSerializer, ShortUserSerializer, MeSerializer, LoginSerializer, \
+    GiveBookSerializer, TakeBookSerializer
 
 
-class IsAdminOrReadOnly(BasePermission):
+class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
-            request.method in SAFE_METHODS or
+            request.method in permissions.SAFE_METHODS or
             request.user and
             request.user.is_authenticated and
             request.user.is_staff
@@ -38,7 +39,7 @@ class LoginView(views.APIView):
 
 
 class LogoutView(views.APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         return self.post(request)
@@ -51,10 +52,43 @@ class LogoutView(views.APIView):
 
 class MeView(views.APIView):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         return Response(MeSerializer(User.objects.prefetch_related('books').filter(id=request.user.id).first()).data)
+
+
+class GiveBookView(views.APIView):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request):
+        serializer = GiveBookSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        book = serializer.validated_data['book']
+        user = serializer.validated_data['user']
+
+        book.user = user
+        book.save()
+
+        return Response(BookSerializer(book).data)
+
+
+class TakeBookView(views.APIView):
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request):
+        serializer = TakeBookSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        book = serializer.validated_data['book']
+
+        book.user = None
+        book.save()
+
+        return Response(BookSerializer(book).data)
 
 
 class BooksViewSet(viewsets.ModelViewSet):
@@ -67,7 +101,7 @@ class BooksViewSet(viewsets.ModelViewSet):
 
 class UsersViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     pagination_class = Pagination
     queryset = User.objects.prefetch_related('books').order_by('-id')
@@ -85,7 +119,7 @@ class UsersViewSet(viewsets.ModelViewSet):
 
 class ShortUsersViewSet(viewsets.ReadOnlyModelViewSet):
     authentication_classes = [TokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     pagination_class = Pagination
     queryset = User.objects.prefetch_related('books').annotate(avg_price=Avg('books__price')).order_by('-id')

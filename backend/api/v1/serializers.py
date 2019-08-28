@@ -15,6 +15,58 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects, required=False)
 
 
+class GiveBookSerializer(serializers.Serializer):
+    book = serializers.IntegerField()
+    user = serializers.IntegerField()
+
+    def validate(self, attrs):
+        errors = {}
+
+        try:
+            book = Book.objects.get(id=attrs['book'])
+
+            if book.user is not None:
+                raise AttributeError()
+
+        except Book.DoesNotExist:
+            errors['book'] = 'Книга не найдена.'
+        except AttributeError:
+            errors['book'] = 'Данная книга уже кому-то выдана.'
+
+        try:
+            user = User.objects.get(id=attrs['user'])
+        except User.DoesNotExist:
+            errors['user'] = 'Пользователь не найден.'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return {'book': book, 'user': user}
+
+
+class TakeBookSerializer(serializers.Serializer):
+    book = serializers.IntegerField()
+
+    def validate(self, attrs):
+        errors = {}
+
+        try:
+            book = Book.objects.get(id=attrs['book'])
+
+            if book.user is None:
+                raise AttributeError()
+
+        except Book.DoesNotExist:
+            errors['book'] = 'Книга не найдна.'
+        except AttributeError:
+            errors['book'] = 'Книга никому не выдана.'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return {'book': book}
+
+
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
