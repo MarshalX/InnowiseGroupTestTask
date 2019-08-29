@@ -14,7 +14,7 @@ class BooksTable extends React.Component {
 
     onClickDelete = (id, event) => {
         fetch(
-            api_url + 'api/books/' + id,
+            api_url + 'api/book/' + id,
             {method: 'DELETE'}
         ).then(response => {
             if (response.status !== 204) {
@@ -51,7 +51,7 @@ class BooksTable extends React.Component {
     render() {
         const data = this.props.data;
 
-        return !data.length ? (
+        return !data || !data.length ? (
             <p>Книг нет</p>
         ) : (
             <Table hover={true}>

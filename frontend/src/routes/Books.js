@@ -10,7 +10,7 @@ class Books extends React.Component {
     render() {
         return <span>
             <h1>Список книг:</h1>
-            <DataProvider endpoint={api_url + 'api/books'}
+            <DataProvider endpoint={api_url + 'api/book'}
                           render={data => <BooksTable data={data}/>}
                           updated={true}/>
             <h1>Добавить новую книгу:</h1>

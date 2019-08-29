@@ -30,7 +30,7 @@ class BookForm extends React.Component {
                 data.values.user = this.props.user;
 
             fetch(
-                api_url + 'api/books/' + (this.props.initial ? this.props.initial.id + '/' : ''),
+                api_url + 'api/book/' + (this.props.initial ? this.props.initial.id + '/' : ''),
                 {
                     headers: {
                         "Accept": "application/json",
