@@ -7,7 +7,24 @@ from rest_framework import serializers
 from library.models import Book, User
 
 
-class BookSerializer(serializers.HyperlinkedModelSerializer):
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+
+        if not self.context.get('request'):
+            return
+
+        fields = self.context['request'].query_params.get('fields')
+        if fields:
+            fields = fields.split(',')
+
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+
+class BookSerializer(DynamicFieldsModelSerializer, serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
         fields = ('id', 'name', 'author', 'pages', 'rating', 'price', 'user')
@@ -89,7 +106,7 @@ class MeSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'is_staff', 'avatar', 'date_joined')
 
 
-class ShortUserSerializer(serializers.ModelSerializer):
+class ShortUserSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'username', 'books_count', 'avg_books_price')
@@ -105,7 +122,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
     )
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'username', 'books', 'password')

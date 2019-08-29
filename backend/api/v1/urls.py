@@ -6,7 +6,7 @@ from v1.views import BooksViewSet, UsersViewSet, ShortUsersViewSet, MeView, Logi
 
 
 router = routers.DefaultRouter()
-router.register(r'books', BooksViewSet)
+router.register(r'book', BooksViewSet)
 router.register(r'short_user', ShortUsersViewSet)
 router.register(r'user', UsersViewSet)
 
