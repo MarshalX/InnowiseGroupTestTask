@@ -1,6 +1,7 @@
 import React from "react";
 import {Nav, Navbar} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
+import Me from "../containers/GetMe";
 
 
 const MainNavbar = () =>
@@ -15,6 +16,9 @@ const MainNavbar = () =>
                 <LinkContainer to="/books">
                     <Nav.Link>Список книг</Nav.Link>
                 </LinkContainer>
+            </Nav>
+            <Nav>
+                <Me/>
             </Nav>
         </Navbar.Collapse>
     </Navbar>
