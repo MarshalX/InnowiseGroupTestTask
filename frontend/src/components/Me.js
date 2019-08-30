@@ -7,10 +7,6 @@ import LoginForm from "./LoginForm";
 class Me extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            me: null
-        }
     }
 
     componentDidMount = () => {
@@ -21,7 +17,7 @@ class Me extends React.Component {
         fetch(api_url + 'api/me/', {credentials: "include"})
             .then(response => {
                 if (response.status === 401) {
-                    return this.props.onSetMe(null);
+                    return this.props.onSetMe();
                 }
                 if (response.status !== 200) {
                     return;
@@ -30,7 +26,6 @@ class Me extends React.Component {
             })
             .then(data => {
                 this.props.onSetMe(data);
-                this.setState({me: data})
             });
     };
 
@@ -41,12 +36,19 @@ class Me extends React.Component {
             })
     };
 
+    isEmpty = (arg) => {
+        for(var item in arg) {
+            return false;
+        }
+        return true;
+    };
+
     render() {
-        const me = this.state.me;
+        const me = this.props.me;
 
         return <div>
-            <NavDropdown title={!me ? 'Гость' : me.username} drop="left">
-                {!me ? (
+            <NavDropdown title={this.isEmpty(me) ? 'Гость' : me.username} drop="left">
+                {this.isEmpty(me) ? (
                     <LoginForm onLogin={() => {this.getMe()}}/>
                 ) : (
                     <div>
