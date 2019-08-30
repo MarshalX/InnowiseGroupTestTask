@@ -37,7 +37,7 @@ class DataProvider extends Component {
     tick = () => {
         this.loaded = false;
 
-        fetch(this.props.endpoint, {'method': this.method})
+        fetch(this.props.endpoint, {credentials: "include", 'method': this.method})
             .then(response => {
                 if (response.status !== 200) {
                     return this.setState({placeholder: "Something went wrong"});

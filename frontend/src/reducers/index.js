@@ -2,7 +2,7 @@ import { combineReducers } from 'redux'
 import { SET_ME } from '../actions/types'
 
 
-const me = (state = {me: null}, action) => {
+const MeReducer = (state = {me: null}, action) => {
     switch (action.type) {
         case SET_ME:
             return Object.assign({}, state, { ...action.me });
@@ -12,7 +12,7 @@ const me = (state = {me: null}, action) => {
 };
 
 const testTask = combineReducers({
-    me,
+    MeReducer,
 });
 
 export default testTask

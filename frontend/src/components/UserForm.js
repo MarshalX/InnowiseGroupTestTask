@@ -37,6 +37,7 @@ class UserForm extends React.Component {
             fetch(
                 api_url + 'api/user/' + (this.props.initial ? this.props.initial.id + '/' : ''),
                 {
+                    credentials: "include",
                     method: this.props.edit ? 'PUT' : 'POST',
                     body: formData
                 }

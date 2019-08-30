@@ -1,17 +1,24 @@
 import React from "react";
 import {NavDropdown} from 'react-bootstrap'
 import {api_url} from "../config";
-import {ReactReduxContext} from "react-redux";
 import LoginForm from "./LoginForm";
 
 
 class Me extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            me: null
+        }
     }
 
     componentDidMount = () => {
-        fetch(api_url + 'api/me')
+        this.getMe();
+    };
+
+    getMe = () => {
+        fetch(api_url + 'api/me/', {credentials: "include"})
             .then(response => {
                 if (response.status !== 200) {
                     return;
@@ -20,24 +27,29 @@ class Me extends React.Component {
             })
             .then(data => {
                 this.props.onSetMe(data);
+                this.setState({me: data})
             });
     };
 
+    logout = () => {
+        fetch(api_url + 'api/logout/', {credentials: "include"})
+            .then(() => {
+                this.getMe()
+            })
+    };
+
     render() {
-        let state = null;
+        const me = this.state.me;
 
         return <div>
-            <ReactReduxContext.Consumer>
-                {({store}) => state = store.getState()}
-            </ReactReduxContext.Consumer>
-            <NavDropdown title="Dropdown" drop="left">
-                {console.log(state)}
-                {!state || !state.me ? (
-                    <LoginForm/>
+            <NavDropdown title={!me ? 'Гость' : me.username} drop="left">
+                {!me ? (
+                    <LoginForm onLogin={() => {this.getMe()}}/>
                 ) : (
                     <div>
-                        <NavDropdown.Item href="#">Log out</NavDropdown.Item>
+                        <NavDropdown.Item href="#">Мой аккаунт</NavDropdown.Item>
                         <NavDropdown.Divider/>
+                        <NavDropdown.Item onClick={() => {this.logout()}}>Выход</NavDropdown.Item>
                     </div>
                 )}
             </NavDropdown>

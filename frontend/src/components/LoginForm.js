@@ -1,6 +1,6 @@
 import React from "react";
 import {Form as IForm} from 'informed';
-import {Alert, Button, Form} from 'react-bootstrap';
+import {Alert, Button, Container, Form} from 'react-bootstrap';
 import Text from "./informed-bootstrap/Text";
 import {api_url} from "../config";
 
@@ -37,12 +37,18 @@ class LoginForm extends React.Component {
             fetch(
                 api_url + 'api/login/',
                 {
-                    method: 'POST',
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                    },
+                    credentials: 'include',
+                    method: "POST",
                     body: JSON.stringify(data.values)
                 }
             )
                 .then(response => {
                     if (response.status === 200) {
+                        this.props.onLogin();
                         return this.setState({success: 'Успешно вошли!'});
                     }
 
@@ -55,7 +61,7 @@ class LoginForm extends React.Component {
     };
 
     render() {
-        return <div>
+        return <Container>
             {this.state.success ? (
                 <Alert variant="success">
                     {this.state.success}
@@ -85,7 +91,7 @@ class LoginForm extends React.Component {
                     Войти
                 </Button>
             </IForm>
-        </div>;
+        </Container>;
     }
 }
 

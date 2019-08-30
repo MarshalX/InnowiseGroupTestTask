@@ -3,6 +3,10 @@ import {setMe} from '../actions';
 import Me from '../components/Me';
 
 
+const mapStateToProps = state => ({
+    me: state.MeReducer.me,
+});
+
 const mapDispatchToProps = dispatch => {
     return {
         onSetMe: me => {
@@ -12,6 +16,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(Me);

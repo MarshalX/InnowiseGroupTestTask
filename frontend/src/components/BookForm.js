@@ -36,6 +36,7 @@ class BookForm extends React.Component {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
                     },
+                    credentials: "include",
                     method: this.props.edit ? 'PUT' : 'POST',
                     body: JSON.stringify(data.values),
                 }

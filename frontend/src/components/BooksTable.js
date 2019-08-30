@@ -15,7 +15,7 @@ class BooksTable extends React.Component {
     onClickDelete = (id, event) => {
         fetch(
             api_url + 'api/book/' + id,
-            {method: 'DELETE'}
+            {credentials: "include", method: 'DELETE'}
         ).then(response => {
             if (response.status !== 204) {
                 alert('Произошла ошибка при удалении!')

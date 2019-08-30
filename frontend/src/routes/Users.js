@@ -10,7 +10,7 @@ class Users extends React.Component {
     onClickDelete = (id, event) => {
         fetch(
             api_url + 'api/user/' + id,
-            {method: 'DELETE'}
+            {credentials: "include", method: 'DELETE'}
         ).then(response => {
             if (response.status !== 204) {
                 alert('Произошла ошибка при удалении! Возможно, пользователь не вернул все книги в библиотеку!')
