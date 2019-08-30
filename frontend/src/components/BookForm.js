@@ -3,7 +3,7 @@ import {Alert, Button, Form} from 'react-bootstrap';
 import {Form as IForm, Option} from "informed";
 import Text from "./informed-bootstrap/Text";
 import Select from "./informed-bootstrap/Select";
-import {api_url} from "../config";
+import {api_url, cookies} from "../config";
 
 
 class BookForm extends React.Component {
@@ -35,6 +35,7 @@ class BookForm extends React.Component {
                     headers: {
                         "Accept": "application/json",
                         "Content-Type": "application/json",
+                        "X-CSRFToken": cookies.get('csrftoken')
                     },
                     credentials: "include",
                     method: this.props.edit ? 'PUT' : 'POST',

@@ -2,6 +2,7 @@ import React from "react";
 import {NavDropdown} from 'react-bootstrap'
 import {api_url} from "../config";
 import LoginForm from "./LoginForm";
+import {LinkContainer} from "react-router-bootstrap";
 
 
 class Me extends React.Component {
@@ -52,7 +53,9 @@ class Me extends React.Component {
                     <LoginForm onLogin={() => {this.getMe()}}/>
                 ) : (
                     <div>
-                        <NavDropdown.Item href="#">Мой аккаунт</NavDropdown.Item>
+                        <LinkContainer to={"/user/" + me.id + "/"}>
+                            <NavDropdown.Item href="#">Мой аккаунт</NavDropdown.Item>
+                        </LinkContainer>
                         <NavDropdown.Divider/>
                         <NavDropdown.Item onClick={() => {this.logout()}}>Выход</NavDropdown.Item>
                     </div>

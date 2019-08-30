@@ -2,7 +2,7 @@ import React from "react";
 import {Form as IForm} from 'informed';
 import {Alert, Button, Form} from 'react-bootstrap';
 import Text from "./informed-bootstrap/Text";
-import {api_url} from "../config";
+import {api_url, cookies} from "../config";
 
 
 class UserForm extends React.Component {
@@ -37,6 +37,7 @@ class UserForm extends React.Component {
             fetch(
                 api_url + 'api/user/' + (this.props.initial ? this.props.initial.id + '/' : ''),
                 {
+                    headers: {"X-CSRFToken": cookies.get('csrftoken')},
                     credentials: "include",
                     method: this.props.edit ? 'PUT' : 'POST',
                     body: formData
