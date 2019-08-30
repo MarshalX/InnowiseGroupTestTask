@@ -5,7 +5,7 @@ import { SET_ME } from '../actions/types'
 const MeReducer = (state = {me: null}, action) => {
     switch (action.type) {
         case SET_ME:
-            return Object.assign({}, state, { ...action.me });
+            return Object.assign({}, state, { me : {...action.me} });
         default:
             return state;
     }

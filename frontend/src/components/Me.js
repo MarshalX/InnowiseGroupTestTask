@@ -20,6 +20,9 @@ class Me extends React.Component {
     getMe = () => {
         fetch(api_url + 'api/me/', {credentials: "include"})
             .then(response => {
+                if (response.status === 401) {
+                    return this.props.onSetMe(null);
+                }
                 if (response.status !== 200) {
                     return;
                 }
