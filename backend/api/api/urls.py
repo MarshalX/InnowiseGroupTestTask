@@ -4,13 +4,15 @@ from django.contrib import admin
 from django.views.static import serve
 from django.urls import path, include
 
-from v1.urls import router as v1
+from v1.urls import v1
 
 
 urlpatterns = [
-    path('api/', include(v1.urls)),
-    path('api/v1/', include(v1.urls)),
+    path('api/', include(v1)),
+    path('api/v1/', include(v1)),
     path('admin/', admin.site.urls),
+
+    path('api/', include('djoser.urls.authtoken')),
     path('api-auth/', include('rest_framework.urls')),
 ]
 

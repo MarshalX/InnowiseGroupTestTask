@@ -9,7 +9,7 @@ class BookEdit extends React.Component {
     render() {
         return <span>
             <h1>Редактирование книги:</h1>
-            <DataProvider endpoint={api_url + 'api/books/' + this.props.match.params.id}
+            <DataProvider endpoint={api_url + 'api/book/' + this.props.match.params.id}
                           render={data => <BookForm edit={true} initial={data}/>}/>
         </span>
     }

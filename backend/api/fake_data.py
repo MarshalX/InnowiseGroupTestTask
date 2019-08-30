@@ -19,6 +19,7 @@ def create_users(num_entries):
 
         User.objects.create_user(
             username=f'{first_name}_{last_name}',
+            password='password',
             avatar=avatar
         )
 

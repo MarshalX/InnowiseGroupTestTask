@@ -1,13 +1,30 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
-
 from rest_framework import serializers
 
 from library.models import Book, User
 
 
-class BookSerializer(serializers.HyperlinkedModelSerializer):
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    def __init__(self, *args, **kwargs):
+        super(DynamicFieldsModelSerializer, self).__init__(*args, **kwargs)
+
+        if not self.context.get('request'):
+            return
+
+        fields = self.context['request'].query_params.get('fields')
+        if fields:
+            fields = fields.split(',')
+
+            allowed = set(fields)
+            existing = set(self.fields.keys())
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+
+class BookSerializer(DynamicFieldsModelSerializer, serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Book
         fields = ('id', 'name', 'author', 'pages', 'rating', 'price', 'user')
@@ -15,7 +32,81 @@ class BookSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects, required=False)
 
 
-class ShortUserSerializer(serializers.ModelSerializer):
+class GiveBookSerializer(serializers.Serializer):
+    book = serializers.IntegerField()
+    user = serializers.IntegerField()
+
+    def validate(self, attrs):
+        errors = {}
+
+        try:
+            book = Book.objects.get(id=attrs['book'])
+
+            if book.user is not None:
+                raise AttributeError()
+
+        except Book.DoesNotExist:
+            errors['book'] = 'Книга не найдена.'
+        except AttributeError:
+            errors['book'] = 'Данная книга уже кому-то выдана.'
+
+        try:
+            user = User.objects.get(id=attrs['user'])
+        except User.DoesNotExist:
+            errors['user'] = 'Пользователь не найден.'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return {'book': book, 'user': user}
+
+
+class TakeBookSerializer(serializers.Serializer):
+    book = serializers.IntegerField()
+
+    def validate(self, attrs):
+        errors = {}
+
+        try:
+            book = Book.objects.get(id=attrs['book'])
+
+            if book.user is None:
+                raise AttributeError()
+
+        except Book.DoesNotExist:
+            errors['book'] = 'Книга не найдна.'
+        except AttributeError:
+            errors['book'] = 'Книга никому не выдана.'
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return {'book': book}
+
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+    def validate(self, attrs):
+        user = authenticate(username=attrs['username'], password=attrs['password'])
+
+        if not user:
+            raise serializers.ValidationError('Неправильный логин или пароль.')
+
+        if not user.is_active:
+            raise serializers.ValidationError('Пользователь заблокирован')
+
+        return {'user': user}
+
+
+class MeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'is_staff', 'avatar', 'date_joined')
+
+
+class ShortUserSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'username', 'books_count', 'avg_books_price')
@@ -31,7 +122,7 @@ class ShortUserSerializer(serializers.ModelSerializer):
     )
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(DynamicFieldsModelSerializer, serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'avatar', 'username', 'books', 'password')

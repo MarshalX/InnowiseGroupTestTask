@@ -54,12 +54,12 @@ class UsersTable extends React.Component {
                     </tbody>
                 </Table>
                 <ButtonToolbar className="btn-group mb-3">
-                    {data.previous ? <LinkContainer to={"/" + (parseInt(page) - 1)}>
+                    {data.previous ? <LinkContainer to={"/users/" + (parseInt(page) - 1)}>
                         <Button variant="outline-primary">
                             ← Туда
                         </Button>
                     </LinkContainer> : null}
-                    {data.next ? <LinkContainer to={"/" + (parseInt(page) + 1)}>
+                    {data.next ? <LinkContainer to={"/users/" + (parseInt(page) + 1)}>
                         <Button variant="outline-primary">
                             Сюда →
                         </Button>
